@@ -28,13 +28,19 @@ FloatingActionButton fab;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-     drawerLayout=findViewById(R.id.drawerlayout);
-     navigationView=findViewById(R.id.navigationview);
-     toolbar=findViewById(R.id.toolbar);
-     fab=findViewById(R.id.fab_btn);
+
+        drawerLayout=findViewById(R.id.drawerlayout);
+        navigationView=findViewById(R.id.navigationview);
+        toolbar=findViewById(R.id.toolbar);
+        fab=findViewById(R.id.fab_btn);
+
+
         Intent R_intent = new Intent(MainActivity.this,Records.class);
-         setSupportActionBar(toolbar);
-         getSupportActionBar().setTitle("Home");
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
+
+
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.OpenDrawer,R.string.CloseDrawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
