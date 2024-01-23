@@ -2,6 +2,7 @@ package com.example.moneymind;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
@@ -37,13 +38,41 @@ private  static final String TABLE_REGISTER="register";
         onCreate(db);
 
     }
-    public void register_user(String name,String email,String username,String password){
+    public Boolean register_user(String name,String email,String username,String password){
         SQLiteDatabase db1=this.getWritableDatabase();
         ContentValues values=new ContentValues();
         values.put(KEY_FullNAME,name);
         values.put(KEY_EMAIL,email);
         values.put(KEY_USERNAME,username);
         values.put(KEY_PASSWORD,password);
-        db1.insert(TABLE_REGISTER,null,values);
+
+        long result=db1.insert(TABLE_REGISTER,null,values);
+        if(result==-1) return false;
+        else
+            return true;
+
     }
+
+    public boolean checkUsername(String Username)
+    {
+        SQLiteDatabase userdb=this.getWritableDatabase();
+        Cursor cursor=userdb.rawQuery("SELECT * FROM " + TABLE_REGISTER + " WHERE " + KEY_USERNAME + "=?", new String[]{Username});
+        if(cursor.getCount() > 0){
+            return true;}
+        else
+            return false;
+
+    }
+
+    public Boolean checkusernamepassword(String username, String password){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("SELECT * FROM "+TABLE_REGISTER+" WHERE "+KEY_USERNAME+"=?"+" AND "+KEY_PASSWORD+"=?",new String[] {username,password});
+        if(cursor.getCount()>0)
+            return true;
+        else
+            return false;
+    }
+
+
+
 }

@@ -72,8 +72,10 @@ FloatingActionButton fab;
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View v) {
-                startActivity(R_intent);
+                Intent add_records=new Intent(MainActivity.this,Add_Records.class);
+                startActivity(add_records);
             }
         });
 

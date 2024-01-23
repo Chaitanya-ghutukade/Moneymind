@@ -42,10 +42,28 @@ public class Registration extends AppCompatActivity {
                 String Username=username.getText().toString();
                 String Password=password.getText().toString();
 
-                dbHelper.register_user(Name,Email,Username,Password);
-                Toast.makeText(Registration.this, "Registered successfully", Toast.LENGTH_SHORT).show();
 
 
+                Boolean checkuser=dbHelper.checkUsername(Username);
+                if(checkuser==false)
+                {
+                    Boolean insert= dbHelper.register_user(Name,Email,Username,Password);
+
+                    if(insert==true)
+                    {
+                        Toast.makeText(Registration.this,"registered successfully!!! Please login again",Toast.LENGTH_SHORT).show();
+                        Intent loginpage=new Intent(Registration.this,LoginActivity.class);
+                        startActivity(loginpage);
+                    }
+                }
+                else{
+                    Toast.makeText(Registration.this,"user already exists",Toast.LENGTH_SHORT).show();
+                    name.setText(" ");
+                    email.setText(" ");
+                    username.setText(" ");
+                    password.setText(" ");
+
+                }
             }
         });
 
