@@ -1,6 +1,7 @@
 package com.example.moneymind;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ public class LoginActivity extends AppCompatActivity {
         signupbtn=findViewById(R.id.textViewSignUp);
         loginbtn=findViewById(R.id.loginButton);
 
+
+
+
+
         MyDBHelper DB=new MyDBHelper(this);
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
@@ -43,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
                         Boolean checkusernamepassword = DB.checkusernamepassword(User, Pass);
                         if (checkusernamepassword == true) {
                             Intent mainactivity_page = new Intent(LoginActivity.this, MainActivity.class);
+                            mainactivity_page.putExtra("username",User);
                             Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-
                             startActivity(mainactivity_page);
                         } else {
                             Toast.makeText(LoginActivity.this, "enter correct password", Toast.LENGTH_SHORT).show();

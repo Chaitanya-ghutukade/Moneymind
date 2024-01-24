@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +35,23 @@ FloatingActionButton fab;
         navigationView=findViewById(R.id.navigationview);
         toolbar=findViewById(R.id.toolbar);
         fab=findViewById(R.id.fab_btn);
+
+
+        // Inside your MainActivity or wherever you have access to the NavigationView
+        NavigationView navigationView = findViewById(R.id.navigationview);
+        View headerView = navigationView.getHeaderView(0); // Index 0 represents the first header
+
+        TextView username = headerView.findViewById(R.id.User_name);
+
+// Assume you have a variable containing the username from the login
+       Intent intent=getIntent();
+        String stored_user_name =intent.getStringExtra("username");
+
+
+// Update the TextView with the username
+        username.setText(stored_user_name);
+
+
 
 
         Intent R_intent = new Intent(MainActivity.this,Records.class);

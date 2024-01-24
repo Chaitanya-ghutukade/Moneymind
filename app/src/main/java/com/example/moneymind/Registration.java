@@ -1,6 +1,7 @@
 package com.example.moneymind;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,9 @@ public class Registration extends AppCompatActivity {
         MyDBHelper dbHelper=new MyDBHelper(this);
 
 
+
+
+
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,10 +62,7 @@ public class Registration extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(Registration.this,"user already exists",Toast.LENGTH_SHORT).show();
-                    name.setText(" ");
-                    email.setText(" ");
-                    username.setText(" ");
-                    password.setText(" ");
+
 
                 }
             }
