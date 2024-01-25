@@ -42,14 +42,28 @@ FloatingActionButton fab;
         View headerView = navigationView.getHeaderView(0); // Index 0 represents the first header
 
         TextView username = headerView.findViewById(R.id.User_name);
+        TextView useremail = headerView.findViewById(R.id.User_email);
 
 // Assume you have a variable containing the username from the login
        Intent intent=getIntent();
         String stored_user_name =intent.getStringExtra("username");
 
+        //fetching data from database
+       MyDBHelper db1=new MyDBHelper(this);
+        Userdata userdata=db1.getuserdetails(stored_user_name);
+        if(userdata != null){
+        String u_name=userdata.user_name;
+        String u_email=userdata.user_email;
+            //set username and email
+            username.setText(u_name);
+            useremail.setText(u_email);
+        }
 
-// Update the TextView with the username
-        username.setText(stored_user_name);
+
+
+
+
+
 
 
 

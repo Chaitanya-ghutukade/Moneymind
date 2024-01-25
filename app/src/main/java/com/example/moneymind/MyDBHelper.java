@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.ContactsContract;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -74,5 +75,34 @@ private  static final String TABLE_REGISTER="register";
     }
 
 
+        public Userdata getuserdetails(String full_name) {
+            SQLiteDatabase db = this.getWritableDatabase();
 
-}
+            Cursor cursor = db.rawQuery("SELECT "+ KEY_FullNAME+","+KEY_EMAIL+"  FROM " + TABLE_REGISTER + " WHERE " + KEY_USERNAME + "=?", new String[]{full_name});
+            Userdata userinfo = new Userdata();
+
+            if (cursor != null && cursor.moveToFirst()) { // Check if the cursor is not null and if it moves to the first row
+
+                int fullNameIndex = cursor.getColumnIndex(KEY_FullNAME);
+                int emailIndex = cursor.getColumnIndex(KEY_EMAIL);
+
+                // Check if column indices are valid before retrieving data
+                if (fullNameIndex >= 0) {
+                    userinfo.user_name = cursor.getString(fullNameIndex);
+                }
+
+               if (emailIndex >= 0) {
+                  userinfo.user_email = cursor.getString(emailIndex);
+               }
+
+
+            }
+
+
+            return userinfo;
+        }
+
+
+
+
+    }

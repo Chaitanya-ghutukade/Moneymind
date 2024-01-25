@@ -25,6 +25,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/User_email"
         android:layout_marginStart="15dp"
         android:text="username@gmail.com"
         android:textSize="20dp"
