@@ -25,43 +25,36 @@ public class Registration extends AppCompatActivity {
         EditText password;
 
 
-        reg=findViewById(R.id.buttonRegister);
-        signin=findViewById(R.id.textViewSignIn);
-        name=findViewById(R.id.editTextFullName);
-        email=findViewById(R.id.editTextEmail);
-        username=findViewById(R.id.editTextUsername);
-        password=findViewById(R.id.editTextPassword);
+        reg = findViewById(R.id.buttonRegister);
+        signin = findViewById(R.id.textViewSignIn);
+        name = findViewById(R.id.editTextFullName);
+        email = findViewById(R.id.editTextEmail);
+        username = findViewById(R.id.editTextUsername);
+        password = findViewById(R.id.editTextPassword);
 
-        MyDBHelper dbHelper=new MyDBHelper(this);
-
-
-
+        MyDBHelper dbHelper = new MyDBHelper(this);
 
 
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String Name=name.getText().toString();
-                String Email=email.getText().toString();
-                String Username=username.getText().toString();
-                String Password=password.getText().toString();
+                String Name = name.getText().toString();
+                String Email = email.getText().toString();
+                String Username = username.getText().toString();
+                String Password = password.getText().toString();
 
 
+                Boolean checkuser = dbHelper.checkUsername(Username);
+                if (checkuser == false) {
+                    Boolean insert = dbHelper.register_user(Name, Email, Username, Password);
 
-                Boolean checkuser=dbHelper.checkUsername(Username);
-                if(checkuser==false)
-                {
-                    Boolean insert= dbHelper.register_user(Name,Email,Username,Password);
-
-                    if(insert==true)
-                    {
-                        Toast.makeText(Registration.this,"registered successfully!!! Please login again",Toast.LENGTH_SHORT).show();
-                        Intent loginpage=new Intent(Registration.this,LoginActivity.class);
+                    if (insert == true) {
+                        Toast.makeText(Registration.this, "registered successfully!!! Please login again", Toast.LENGTH_SHORT).show();
+                        Intent loginpage = new Intent(Registration.this, LoginActivity.class);
                         startActivity(loginpage);
                     }
-                }
-                else{
-                    Toast.makeText(Registration.this,"user already exists",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Registration.this, "user already exists", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -71,7 +64,7 @@ public class Registration extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signin_to_login = new Intent(Registration.this,LoginActivity.class);
+                Intent signin_to_login = new Intent(Registration.this, LoginActivity.class);
                 startActivity(signin_to_login);
             }
         });

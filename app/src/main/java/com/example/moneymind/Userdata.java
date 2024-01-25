@@ -2,7 +2,7 @@ package com.example.moneymind;
 
 public class Userdata {
     public String user_name;
-   public  String user_email;
+    public String user_email;
 
    /* public void setUser_name( String name){
         this.user_name=name;

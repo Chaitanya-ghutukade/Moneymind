@@ -21,23 +21,25 @@ import com.google.android.material.navigation.NavigationView;
 
 
 public class MainActivity extends AppCompatActivity {
-DrawerLayout drawerLayout;
-NavigationView navigationView;
-Toolbar toolbar;
-FloatingActionButton fab;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        drawerLayout=findViewById(R.id.drawerlayout);
-        navigationView=findViewById(R.id.navigationview);
-        toolbar=findViewById(R.id.toolbar);
-        fab=findViewById(R.id.fab_btn);
+        drawerLayout = findViewById(R.id.drawerlayout);
+        navigationView = findViewById(R.id.navigationview);
+        toolbar = findViewById(R.id.toolbar);
+        fab = findViewById(R.id.fab_btn);
 
 
-        // Inside your MainActivity or wherever you have access to the NavigationView
+        //code to set fullname and email on navigation drawer
+
+     /*   // Inside your MainActivity or wherever you have access to the NavigationView
         NavigationView navigationView = findViewById(R.id.navigationview);
         View headerView = navigationView.getHeaderView(0); // Index 0 represents the first header
 
@@ -57,39 +59,30 @@ FloatingActionButton fab;
             //set username and email
             username.setText(u_name);
             useremail.setText(u_email);
-        }
+        }  */
 
-
-
-
-
-
-
-
-
-
-        Intent R_intent = new Intent(MainActivity.this,Records.class);
+        Intent R_intent = new Intent(MainActivity.this, Records.class);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home");
 
 
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.OpenDrawer,R.string.CloseDrawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.OpenDrawer, R.string.CloseDrawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id=item.getItemId();
-                if(id==R.id.records_item){
+                int id = item.getItemId();
+                if (id == R.id.records_item) {
 
-                   startActivity(R_intent);
+                    startActivity(R_intent);
 
-                } else if (id==R.id.goal_item) {
-                    Toast.makeText(MainActivity.this,"no goals found",Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.goal_item) {
+                    Toast.makeText(MainActivity.this, "no goals found", Toast.LENGTH_SHORT).show();
 
-                } else if (id==R.id.budget_item) {
-                    Toast.makeText(MainActivity.this,"budget not fixed",Toast.LENGTH_SHORT).show();
+                } else if (id == R.id.budget_item) {
+                    Toast.makeText(MainActivity.this, "budget not fixed", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -100,18 +93,16 @@ FloatingActionButton fab;
             }
 
 
-
         });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
 
             public void onClick(View v) {
-                Intent add_records=new Intent(MainActivity.this,Add_Records.class);
+                Intent add_records = new Intent(MainActivity.this, Add_Records.class);
                 startActivity(add_records);
             }
         });
-
 
 
     }

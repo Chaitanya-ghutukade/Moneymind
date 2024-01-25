@@ -18,28 +18,25 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText user=findViewById(R.id.editTextUsername);
-        EditText pass=findViewById(R.id.editTextPassword);
+        EditText user = findViewById(R.id.editTextUsername);
+        EditText pass = findViewById(R.id.editTextPassword);
         Button loginbtn;
         TextView signupbtn;
-        signupbtn=findViewById(R.id.textViewSignUp);
-        loginbtn=findViewById(R.id.loginButton);
+        signupbtn = findViewById(R.id.textViewSignUp);
+        loginbtn = findViewById(R.id.loginButton);
 
 
-
-
-
-        MyDBHelper DB=new MyDBHelper(this);
+        MyDBHelper DB = new MyDBHelper(this);
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String User=user.getText().toString();
-                String Pass= pass.getText().toString();
+                String User = user.getText().toString();
+                String Pass = pass.getText().toString();
 
                 if (User.equals("") || Pass.equals("")) {
-                    Toast.makeText(LoginActivity.this, "please enter all the details", Toast.LENGTH_SHORT).show();}
-                else {
+                    Toast.makeText(LoginActivity.this, "please enter all the details", Toast.LENGTH_SHORT).show();
+                } else {
                     Boolean checkuser = DB.checkUsername(User);
                     if (checkuser == false) {
                         Toast.makeText(LoginActivity.this, "User does not exist please register", Toast.LENGTH_SHORT).show();
@@ -47,10 +44,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         Boolean checkusernamepassword = DB.checkusernamepassword(User, Pass);
                         if (checkusernamepassword == true) {
-                            Intent mainactivity_page = new Intent(LoginActivity.this, MainActivity.class);
+                         /*   Intent mainactivity_page = new Intent(LoginActivity.this, MainActivity.class);
                             mainactivity_page.putExtra("username",User);
                             Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                            startActivity(mainactivity_page);
+                            startActivity(mainactivity_page);   */
+                            Intent account_page = new Intent(LoginActivity.this, Account_page.class);
+                            startActivity(account_page);
+
+
                         } else {
                             Toast.makeText(LoginActivity.this, "enter correct password", Toast.LENGTH_SHORT).show();
                         }
@@ -63,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         signupbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent Reg_page=new Intent(LoginActivity.this,Registration.class);
+                Intent Reg_page = new Intent(LoginActivity.this, Registration.class);
                 startActivity(Reg_page);
             }
         });

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Moneymind"
         tools:targetApi="31">
         <activity
+            android:name=".Account_page"
+            android:exported="true" />
+        <activity
             android:name=".Add_Records"
             android:exported="true" />
         <activity
