@@ -44,12 +44,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         Boolean checkusernamepassword = DB.checkusernamepassword(User, Pass);
                         if (checkusernamepassword == true) {
-                         /*   Intent mainactivity_page = new Intent(LoginActivity.this, MainActivity.class);
+                           Intent mainactivity_page = new Intent(LoginActivity.this, MainActivity.class);
                             mainactivity_page.putExtra("username",User);
                             Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                            startActivity(mainactivity_page);   */
-                            Intent account_page = new Intent(LoginActivity.this, Account_page.class);
-                            startActivity(account_page);
+                            startActivity(mainactivity_page);
+                           /* Intent account_page = new Intent(LoginActivity.this, Account_page.class);
+                            startActivity(account_page);*/
 
 
                         } else {

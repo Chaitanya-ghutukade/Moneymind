@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         //code to set fullname and email on navigation drawer
 
-     /*   // Inside your MainActivity or wherever you have access to the NavigationView
+      // Inside your MainActivity or wherever you have access to the NavigationView
         NavigationView navigationView = findViewById(R.id.navigationview);
         View headerView = navigationView.getHeaderView(0); // Index 0 represents the first header
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             //set username and email
             username.setText(u_name);
             useremail.setText(u_email);
-        }  */
+        }
 
         Intent R_intent = new Intent(MainActivity.this, Records.class);
 

@@ -12,12 +12,35 @@ import androidx.annotation.Nullable;
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MainDB";
-    private static final int DATABASE_VERSION = 2;
-    private static final String TABLE_REGISTER = "register";
-    private static final String KEY_FullNAME = "fullName";
-    private static final String KEY_EMAIL = "Email";
-    private static final String KEY_USERNAME = "Username";
-    private static final String KEY_PASSWORD = "Password";
+    private static final int DATABASE_VERSION = 1;
+
+    // User table
+    private static final String USER_TABLE_NAME = "Users";
+    private static final String USER_COLUMN_ID = "UserID";
+    private static final String USER_COLUMN_FULL_NAME="Full_name";
+    private static final String USER_COLUMN_USERNAME = "Username";
+    private static final String USER_COLUMN_EMAIL = "Email";
+    private static final String USER_COLUMN_PASSWORD = "Password";
+
+    // Account table
+    private static final String ACCOUNT_TABLE_NAME = "Accounts";
+    private static final String ACCOUNT_COLUMN_ID = "AccountID";
+    private static final String ACCOUNT_COLUMN_USER_ID = "UserID";
+    private static final String ACCOUNT_COLUMN_NAME = "AccountName";
+
+    // Record table
+    private static final String RECORD_TABLE_NAME = "Records";
+    private static final String RECORD_COLUMN_ID = "RecordID";
+    private static final String RECORD_COLUMN_ACCOUNT_ID = "AccountID";
+    private static final String RECORD_COLUMN_EXPENSE_NAME = "ExpenseName";
+    private static final String RECORD_COLUMN_AMOUNT = "Amount";
+    private static final String RECORD_COLUMN_CATEGORY = "Category";
+    private static final String RECORD_COLUMN_DATE = "Date";
+    private static final String RECORD_COLUMN_DESCRIPTION = "Description";
+
+
+
+
 
     public MyDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,37 +48,85 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_REGISTER + "(" + KEY_FullNAME + " TEXT," + KEY_EMAIL + " TEXT," +
-                KEY_USERNAME + " TEXT PRIMARY KEY," + KEY_PASSWORD + " TEXT NOT NULL" + ")");
 
+        // Create User table
+        String createUserTable = "CREATE TABLE " + USER_TABLE_NAME + " (" +
+                USER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                USER_COLUMN_FULL_NAME + " TEXT, " +
+                USER_COLUMN_USERNAME + " TEXT, " +
+                USER_COLUMN_EMAIL + " TEXT, " +
+                USER_COLUMN_PASSWORD + " TEXT)";
+        db.execSQL(createUserTable);
 
+        // Create Account table
+        String createAccountTable = "CREATE TABLE " + ACCOUNT_TABLE_NAME + " (" +
+                ACCOUNT_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                ACCOUNT_COLUMN_USER_ID + " INTEGER, " +
+                ACCOUNT_COLUMN_NAME + " TEXT, " +
+                "FOREIGN KEY(" + ACCOUNT_COLUMN_USER_ID + ") REFERENCES " + USER_TABLE_NAME + "(" + USER_COLUMN_ID + "))";
+        db.execSQL(createAccountTable);
+
+        // Create Record table
+        String createRecordTable = "CREATE TABLE " + RECORD_TABLE_NAME + " (" +
+                RECORD_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                RECORD_COLUMN_ACCOUNT_ID + " INTEGER, " +
+                RECORD_COLUMN_EXPENSE_NAME + " TEXT, " +
+                RECORD_COLUMN_AMOUNT + " REAL, " +
+                RECORD_COLUMN_CATEGORY + " TEXT, " +
+                RECORD_COLUMN_DATE + " TEXT, " +
+                RECORD_COLUMN_DESCRIPTION + " TEXT, " +
+                "FOREIGN KEY(" + RECORD_COLUMN_ACCOUNT_ID + ") REFERENCES " + ACCOUNT_TABLE_NAME + "(" + ACCOUNT_COLUMN_ID + "))";
+        db.execSQL(createRecordTable);
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_REGISTER);
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ACCOUNT_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + RECORD_TABLE_NAME);
+
         onCreate(db);
 
     }
 
-    public Boolean register_user(String name, String email, String username, String password) {
-        SQLiteDatabase db1 = this.getWritableDatabase();
+    public Boolean createUser(String full_name,String email,String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_FullNAME, name);
-        values.put(KEY_EMAIL, email);
-        values.put(KEY_USERNAME, username);
-        values.put(KEY_PASSWORD, password);
+        values.put(USER_COLUMN_FULL_NAME, full_name);
+        values.put(USER_COLUMN_USERNAME, username);
+        values.put(USER_COLUMN_EMAIL, email);
+        values.put(USER_COLUMN_PASSWORD, password);
 
-        long result = db1.insert(TABLE_REGISTER, null, values);
+         long result= db.insert(USER_TABLE_NAME, null, values);
         if (result == -1) return false;
         else
             return true;
+    }
 
+    public long createAccount(int userID, String accountName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ACCOUNT_COLUMN_USER_ID, userID);
+        values.put(ACCOUNT_COLUMN_NAME, accountName);
+
+        return db.insert(ACCOUNT_TABLE_NAME, null, values);
+    }
+
+    public long addRecord(int accountID, String expenseName, double amount, String category, String date, String description) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(RECORD_COLUMN_ACCOUNT_ID, accountID);
+        values.put(RECORD_COLUMN_EXPENSE_NAME, expenseName);
+        values.put(RECORD_COLUMN_AMOUNT, amount);
+        values.put(RECORD_COLUMN_CATEGORY, category);
+        values.put(RECORD_COLUMN_DATE, date);
+        values.put(RECORD_COLUMN_DESCRIPTION, description);
+
+        return db.insert(RECORD_TABLE_NAME, null, values);
     }
 
     public boolean checkUsername(String Username) {
         SQLiteDatabase userdb = this.getWritableDatabase();
-        Cursor cursor = userdb.rawQuery("SELECT * FROM " + TABLE_REGISTER + " WHERE " + KEY_USERNAME + "=?", new String[]{Username});
+        Cursor cursor = userdb.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_COLUMN_USERNAME + "=?", new String[]{Username});
         if (cursor.getCount() > 0) {
             return true;
         } else
@@ -65,7 +136,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
     public Boolean checkusernamepassword(String username, String password) {
         SQLiteDatabase MyDB = this.getWritableDatabase();
-        Cursor cursor = MyDB.rawQuery("SELECT * FROM " + TABLE_REGISTER + " WHERE " + KEY_USERNAME + "=?" + " AND " + KEY_PASSWORD + "=?", new String[]{username, password});
+        Cursor cursor = MyDB.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_COLUMN_USERNAME + "=?" + " AND " + USER_COLUMN_PASSWORD + "=?", new String[]{username, password});
         if (cursor.getCount() > 0)
             return true;
         else
@@ -76,13 +147,13 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public Userdata getuserdetails(String full_name) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT " + KEY_FullNAME + "," + KEY_EMAIL + "  FROM " + TABLE_REGISTER + " WHERE " + KEY_USERNAME + "=?", new String[]{full_name});
+        Cursor cursor = db.rawQuery("SELECT " + USER_COLUMN_FULL_NAME + "," + USER_COLUMN_EMAIL + "  FROM " + USER_TABLE_NAME + " WHERE " + USER_COLUMN_USERNAME + "=?", new String[]{full_name});
         Userdata userinfo = new Userdata();
 
         if (cursor != null && cursor.moveToFirst()) { // Check if the cursor is not null and if it moves to the first row
 
-            int fullNameIndex = cursor.getColumnIndex(KEY_FullNAME);
-            int emailIndex = cursor.getColumnIndex(KEY_EMAIL);
+            int fullNameIndex = cursor.getColumnIndex(USER_COLUMN_FULL_NAME);
+            int emailIndex = cursor.getColumnIndex(USER_COLUMN_EMAIL);
 
             // Check if column indices are valid before retrieving data
             if (fullNameIndex >= 0) {
@@ -95,8 +166,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
 
         }
-
-
         return userinfo;
     }
 

@@ -46,7 +46,7 @@ public class Registration extends AppCompatActivity {
 
                 Boolean checkuser = dbHelper.checkUsername(Username);
                 if (checkuser == false) {
-                    Boolean insert = dbHelper.register_user(Name, Email, Username, Password);
+                    Boolean insert = dbHelper.createUser(Name, Email, Username, Password);
 
                     if (insert == true) {
                         Toast.makeText(Registration.this, "registered successfully!!! Please login again", Toast.LENGTH_SHORT).show();
