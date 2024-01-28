@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MainDB";
     private static final int DATABASE_VERSION = 1;
@@ -168,6 +171,53 @@ public class MyDBHelper extends SQLiteOpenHelper {
         }
         return userinfo;
     }
+
+    public int getuserid(String full_name) {
+        int user_id=-1;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT " + USER_COLUMN_ID + "  FROM " + USER_TABLE_NAME + " WHERE " + USER_COLUMN_USERNAME + "=?", new String[]{full_name});
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            int userid_Index = cursor.getColumnIndex(USER_COLUMN_ID);
+
+            // Check if column indices are valid before retrieving data
+            if (userid_Index >= 0) {
+                user_id = cursor.getInt(userid_Index);
+            }
+
+        }
+
+
+
+        return user_id;
+    }
+
+
+    public ArrayList<String> fetchAccountNames(int userid) {
+        ArrayList<String> accountNames = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] selectionArgs = { String.valueOf(userid) };
+        Cursor cursor = db.rawQuery("SELECT " + ACCOUNT_COLUMN_NAME + "  FROM " + ACCOUNT_TABLE_NAME + " WHERE " + USER_COLUMN_ID + "=?",selectionArgs);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                int  accname = cursor.getColumnIndex(ACCOUNT_COLUMN_NAME);
+
+
+                if (accname >= 0) {
+                   String   accountName = cursor.getString(accname);
+                    accountNames.add(accountName);
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        return accountNames;
+    }
+
 
 
 }

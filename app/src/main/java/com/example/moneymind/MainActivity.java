@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab_btn);
 
 
-        //code to set fullname and email on navigation drawer
+      /*  //code to set fullname and email on navigation drawer
 
       // Inside your MainActivity or wherever you have access to the NavigationView
         NavigationView navigationView = findViewById(R.id.navigationview);
@@ -59,12 +59,15 @@ public class MainActivity extends AppCompatActivity {
             //set username and email
             username.setText(u_name);
             useremail.setText(u_email);
-        }
+        }  */
 
         Intent R_intent = new Intent(MainActivity.this, Records.class);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Home");
+
+
+
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.OpenDrawer, R.string.CloseDrawer);

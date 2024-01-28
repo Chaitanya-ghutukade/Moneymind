@@ -45,18 +45,29 @@
         android:layout_height="wrap_content"
         android:text="Select an Account"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:translationY="-110dp" />
+        android:translationY="-90dp" />
+
 
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_gravity="center"
         android:translationY="-50dp">
 
-        <!-- New buttons will be added here dynamically -->
+       <ListView
+           android:layout_width="match_parent"
+           android:layout_height="310dp"
+           android:id="@+id/listview"
+           android:layout_margin="70dp"
+           android:layout_gravity="center"
+           />
+
+
+
 
     </LinearLayout>
 
