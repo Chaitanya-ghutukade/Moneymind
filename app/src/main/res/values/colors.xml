@@ -14,9 +14,11 @@
     <!-- Secondary text color -->
     <color name="text_secondary_color">#666666</color>
 
-        <color name="list_item_background_color">#4CAF50</color> \
-        <color name="list_item_text_color">@color/black</color>
+    <color name="list_item_background_color">#4CAF50</color>
+    <color name="list_item_text_color">@color/black</color>
 
+    <color name="popup_menu_text_color">#FFF</color>
+    <color name="popup_menu_background_color">#2196F3</color>
 
 
 </resources>

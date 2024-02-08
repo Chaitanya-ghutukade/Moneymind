@@ -146,6 +146,16 @@ public class MyDBHelper extends SQLiteOpenHelper {
             return false;
     }
 
+    public boolean checkAccountname(String Accountname) {
+        SQLiteDatabase userdb = this.getWritableDatabase();
+        Cursor cursor = userdb.rawQuery("SELECT * FROM " + ACCOUNT_TABLE_NAME + " WHERE " + ACCOUNT_COLUMN_NAME + "=?", new String[]{Accountname});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else
+            return false;
+
+    }
+
 
     public Userdata getuserdetails(String full_name) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -188,10 +198,27 @@ public class MyDBHelper extends SQLiteOpenHelper {
             }
 
         }
-
-
-
         return user_id;
+    }
+
+    public int get_account_id(String acc_name,int userid) {
+        int acc_id=-1;
+        SQLiteDatabase db = this.getWritableDatabase();
+        String u_id=String.valueOf(userid);
+
+        Cursor cursor = db.rawQuery("SELECT " + ACCOUNT_COLUMN_ID + "  FROM " + ACCOUNT_TABLE_NAME + " WHERE " + ACCOUNT_COLUMN_NAME + "=?"+" AND " + ACCOUNT_COLUMN_USER_ID + "=?", new String[]{acc_name,u_id});
+
+        if (cursor != null && cursor.moveToFirst()) {
+
+            int acc_id_Index = cursor.getColumnIndex(ACCOUNT_COLUMN_ID);
+
+            // Check if column indices are valid before retrieving data
+            if (acc_id_Index >= 0) {
+                acc_id = cursor.getInt(acc_id_Index);
+            }
+
+        }
+        return acc_id;
     }
 
 
@@ -216,6 +243,35 @@ public class MyDBHelper extends SQLiteOpenHelper {
         }
 
         return accountNames;
+    }
+
+    public Boolean delete_account(String acc_name,int usr_id){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        int rowdeleted= db.delete(ACCOUNT_TABLE_NAME,ACCOUNT_COLUMN_USER_ID+"=? And "+ACCOUNT_COLUMN_NAME+"=? ",new String[]{String.valueOf(usr_id),acc_name});
+
+        if(rowdeleted>0){
+            return true;
+        }
+        return  false;
+
+    }
+
+    public Boolean edit_account(int acc_id,int usr_id,String newacc_name){
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ACCOUNT_COLUMN_NAME, newacc_name);
+        int rowedited = db.update(ACCOUNT_TABLE_NAME, values, ACCOUNT_COLUMN_ID+" = ? And "+ACCOUNT_COLUMN_USER_ID+"= ?", new String[] { String.valueOf(acc_id),String.valueOf(usr_id)});
+        if(rowedited>0){
+            return true;
+        }
+        return  false;
+
+
+
+
+
     }
 
 

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,20 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab_btn);
 
 
-      /*  //code to set fullname and email on navigation drawer
+        //rough code to check working
+        TextView aname=findViewById(R.id.aname);
+        TextView uname=findViewById(R.id.uname);
+        Intent intent=getIntent();
+        String A_name=String.valueOf(intent.getIntExtra("Account_id",0));
+        String U_name=String.valueOf(intent.getIntExtra("User_id",0));
+        String stored_user_name=intent.getStringExtra("User_name");
+        aname.setText(A_name);
+        uname.setText(U_name);
+
+
+
+
+      //code to set fullname and email on navigation drawer
 
       // Inside your MainActivity or wherever you have access to the NavigationView
         NavigationView navigationView = findViewById(R.id.navigationview);
@@ -47,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         TextView useremail = headerView.findViewById(R.id.User_email);
 
 // Assume you have a variable containing the username from the login
-       Intent intent=getIntent();
-        String stored_user_name =intent.getStringExtra("username");
 
         //fetching data from database
        MyDBHelper db1=new MyDBHelper(this);
@@ -59,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
             //set username and email
             username.setText(u_name);
             useremail.setText(u_email);
-        }  */
+        }
+
+        //get the acc_id and user_id  and fetch the details from database and set on home screen
 
         Intent R_intent = new Intent(MainActivity.this, Records.class);
 
@@ -81,11 +95,19 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(R_intent);
 
-                } else if (id == R.id.goal_item) {
+                }
+                else if (id == R.id.account_item) {
+                    Intent intent=new Intent(MainActivity.this,Account_page.class);
+                    startActivity(intent);
+                }else if (id == R.id.goal_item) {
                     Toast.makeText(MainActivity.this, "no goals found", Toast.LENGTH_SHORT).show();
 
                 } else if (id == R.id.budget_item) {
                     Toast.makeText(MainActivity.this, "budget not fixed", Toast.LENGTH_SHORT).show();
+
+                }  else if (id == R.id.login_item) {
+                   Intent intent=new Intent(MainActivity.this,LoginActivity.class);
+                   startActivity(intent);
 
                 }
 
@@ -109,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
 }
