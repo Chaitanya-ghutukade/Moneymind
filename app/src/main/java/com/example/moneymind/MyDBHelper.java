@@ -146,9 +146,9 @@ public class MyDBHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    public boolean checkAccountname(String Accountname) {
+    public boolean checkAccountname(String Accountname,int userid) {
         SQLiteDatabase userdb = this.getWritableDatabase();
-        Cursor cursor = userdb.rawQuery("SELECT * FROM " + ACCOUNT_TABLE_NAME + " WHERE " + ACCOUNT_COLUMN_NAME + "=?", new String[]{Accountname});
+        Cursor cursor = userdb.rawQuery("SELECT * FROM " + ACCOUNT_TABLE_NAME + " WHERE " + ACCOUNT_COLUMN_NAME + "=? And "+ACCOUNT_COLUMN_USER_ID+"=?", new String[]{Accountname,String.valueOf(userid)});
         if (cursor.getCount() > 0) {
             return true;
         } else

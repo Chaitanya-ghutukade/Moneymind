@@ -107,7 +107,7 @@ public class Account_page extends AppCompatActivity {
                 EditText accountNameEditText = view.findViewById(R.id.account_name_edittext);
                 String newAccountName = accountNameEditText.getText().toString();
 
-                Boolean checkaccount = db2.checkAccountname(newAccountName);
+                Boolean checkaccount = db2.checkAccountname(newAccountName,user_id);
                 if (checkaccount == true) {
 
                     Toast.makeText(Account_page.this, "Account with this name is already exists", Toast.LENGTH_SHORT).show();
@@ -184,7 +184,7 @@ public class Account_page extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String newText = input.getText().toString();
-                Boolean checkaccount = db.checkAccountname(newText);
+                Boolean checkaccount = db.checkAccountname(newText,user_id);
                 if (checkaccount == true) {
 
                     Toast.makeText(Account_page.this, "Account with this name is already exists", Toast.LENGTH_SHORT).show();
