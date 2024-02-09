@@ -6,6 +6,7 @@ import androidx.appcompat.view.ContextThemeWrapper;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -38,9 +39,9 @@ public class Account_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_page);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("User_name", MODE_PRIVATE);
+        String stored_user_name=sharedPreferences.getString("username","default_username");
 
-        Intent intent = getIntent();
-        String stored_user_name = intent.getStringExtra("username");
         MyDBHelper db2 = new MyDBHelper(this);
         user_id = db2.getuserid(stored_user_name);
 
