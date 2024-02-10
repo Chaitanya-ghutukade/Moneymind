@@ -38,6 +38,16 @@
         android:translationX="120dp"
         android:translationY="-120dp" />
 
+    <TextView
+        android:id="@+id/select_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello user"
+        android:textColor="@color/popup_menu_background_color"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:translationY="-100dp" />
+
 
     <TextView
         android:id="@+id/select_acc"
@@ -48,6 +58,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:translationY="-90dp" />
+
+
 
 
     <LinearLayout
@@ -62,13 +74,9 @@
            android:layout_width="match_parent"
            android:layout_height="310dp"
            android:id="@+id/listview"
-           android:layout_margin="70dp"
+           android:layout_margin="50dp"
            android:layout_gravity="center"
            />
-
-
-
-
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton

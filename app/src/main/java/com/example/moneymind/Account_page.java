@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,11 +40,20 @@ public class Account_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_page);
 
+        TextView name=findViewById(R.id.select_user);
+
         SharedPreferences sharedPreferences = getSharedPreferences("User_name", MODE_PRIVATE);
         String stored_user_name=sharedPreferences.getString("username","default_username");
 
         MyDBHelper db2 = new MyDBHelper(this);
         user_id = db2.getuserid(stored_user_name);
+
+        Userdata userdata=db2.getuserdetails(stored_user_name);
+        if(userdata != null){
+            String u_name=userdata.user_name;
+            name.setText("Hii "+ u_name);
+
+        }
 
         listView = findViewById(R.id.listview);
 
