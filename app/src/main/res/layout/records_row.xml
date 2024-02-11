@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-
-
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background_color">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        app:cardBackgroundColor="#A7E6A3"
+        app:cardBackgroundColor="#fff"
         app:cardCornerRadius="11dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">

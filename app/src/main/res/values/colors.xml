@@ -20,5 +20,11 @@
     <color name="popup_menu_text_color">#FFF</color>
     <color name="popup_menu_background_color">#2196F3</color>
 
+    <!-- toolbar color -->
+    <color name="home_toolbar_color">#F22FA87B</color>
+    <color name="record_toolbar_color">#F22FA87B</color>
+    <color name="add_record_toolbar_color">#2196F3</color>
+    <color name="activity_background">#03A9F4</color>
+
 
 </resources>

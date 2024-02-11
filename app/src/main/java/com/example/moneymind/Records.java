@@ -2,12 +2,16 @@ package com.example.moneymind;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,6 +33,11 @@ public class Records extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerview);
         setSupportActionBar(Records_toolbar);
         getSupportActionBar().setTitle("Records");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.record_toolbar_color));
+        }
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

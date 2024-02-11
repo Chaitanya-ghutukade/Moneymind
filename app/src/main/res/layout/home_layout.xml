@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
 
     <ScrollView
 
@@ -15,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -27,13 +28,13 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/design_default_color_primary" />
+                    android:background="@color/home_toolbar_color" />
             </com.google.android.material.appbar.AppBarLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="380dp"
                 android:layout_height="250dp"
-                app:cardBackgroundColor="#A7E6A3"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardCornerRadius="11dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true">
@@ -102,7 +103,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="380dp"
                 android:layout_height="250dp"
-                app:cardBackgroundColor="#A7E6A3"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardCornerRadius="11dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true">
@@ -128,7 +129,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="380dp"
                 android:layout_height="250dp"
-                app:cardBackgroundColor="#A7E6A3"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardCornerRadius="11dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true"/>
@@ -136,7 +137,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="380dp"
                 android:layout_height="250dp"
-                app:cardBackgroundColor="#A7E6A3"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardCornerRadius="11dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true"/>
@@ -144,7 +145,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="380dp"
                 android:layout_height="250dp"
-                app:cardBackgroundColor="#A7E6A3"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardCornerRadius="11dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true"/>
@@ -152,7 +153,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="380dp"
                 android:layout_height="250dp"
-                app:cardBackgroundColor="#A7E6A3"
+                app:cardBackgroundColor="@color/background_color"
                 app:cardCornerRadius="11dp"
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true"/>

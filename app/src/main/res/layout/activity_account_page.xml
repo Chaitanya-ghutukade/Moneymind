@@ -74,7 +74,7 @@
            android:layout_width="match_parent"
            android:layout_height="310dp"
            android:id="@+id/listview"
-           android:layout_margin="50dp"
+           android:layout_margin="60dp"
            android:layout_gravity="center"
            />
     </LinearLayout>
