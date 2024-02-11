@@ -26,5 +26,7 @@
     <color name="add_record_toolbar_color">#2196F3</color>
     <color name="activity_background">#03A9F4</color>
 
+    <color name="button_background">#03A9F4</color>
+
 
 </resources>
