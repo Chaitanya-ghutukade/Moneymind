@@ -39,40 +39,54 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <GridLayout
+        android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:columnCount="3"
-        android:padding="16dp"
-        android:rowCount="1">
+        android:rowCount="1"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false">
 
-        <Button
-            android:id="@+id/income_btn"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_income"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
             android:text="Income"
-            />
+            android:layout_columnWeight="1"
+            android:background="@drawable/button_selector"
+            android:padding="8dp"/>
 
-        <Button
-            android:id="@+id/expense_btn"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_expense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
             android:text="Expense"
-           />
+            android:layout_columnWeight="1"
+            android:background="@drawable/button_selector"
+            android:padding="8dp"/>
 
-
-        <Button
-            android:id="@+id/transfer_btn"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_transfer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
             android:text="Transfer"
-           />
-
+            android:layout_columnWeight="1"
+            android:background="@drawable/button_selector"
+            android:padding="8dp"/>
 
     </GridLayout>
+
+    <TextView
+        android:id="@+id/txt_icon"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/grid_layout"
+
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:text="Icon"
+        android:textSize="50sp"
+       />
 
 
 </LinearLayout>

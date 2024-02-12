@@ -22,11 +22,17 @@
 
     <!-- toolbar color -->
     <color name="home_toolbar_color">#F22FA87B</color>
-    <color name="record_toolbar_color">#F22FA87B</color>
+    <color name="record_toolbar_color">#4CAF50</color>
     <color name="add_record_toolbar_color">#2196F3</color>
     <color name="activity_background">#03A9F4</color>
 
     <color name="button_background">#03A9F4</color>
 
+    <color name="button_selected">#00BCD4</color>
+    <color name="button_default">#03A9F4</color>
+
+    <color name="green">#4CAF50</color>
+    <color name="red">#ED1111</color>
+    <color name="blue">#00BCD4</color>
 
 </resources>
