@@ -45,12 +45,6 @@ public class Account_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_page);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.activity_background));
-        }
-
         TextView name=findViewById(R.id.select_user);
 
         SharedPreferences sharedPreferences = getSharedPreferences("User_name", MODE_PRIVATE);

@@ -21,7 +21,7 @@
     <color name="popup_menu_background_color">#2196F3</color>
 
     <!-- toolbar color -->
-    <color name="home_toolbar_color">#F22FA87B</color>
+    <color name="custom_green">#F22FA87B</color>
     <color name="record_toolbar_color">#4CAF50</color>
     <color name="add_record_toolbar_color">#2196F3</color>
     <color name="activity_background">#03A9F4</color>
@@ -34,5 +34,7 @@
     <color name="green">#4CAF50</color>
     <color name="red">#ED1111</color>
     <color name="blue">#00BCD4</color>
+    <color name="dark_green">#009688</color>
+
 
 </resources>

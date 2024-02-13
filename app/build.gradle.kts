@@ -6,6 +6,10 @@ android {
     namespace = "com.example.moneymind"
     compileSdk = 34
 
+    buildFeatures{
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.moneymind"
         minSdk = 28
