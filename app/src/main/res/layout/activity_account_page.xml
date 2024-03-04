@@ -7,7 +7,7 @@
     android:background="#fff"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Account_page">
+    tools:context=".views.activities.Account_page">
 
     <TextView
         android:layout_width="wrap_content"

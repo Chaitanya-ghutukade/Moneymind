@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical"
-    tools:context=".Add_Records">
+    tools:context=".views.activities.Add_Records">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

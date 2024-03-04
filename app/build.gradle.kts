@@ -10,6 +10,9 @@ android {
         viewBinding = true
     }
 
+
+
+
     defaultConfig {
         applicationId = "com.example.moneymind"
         minSdk = 28

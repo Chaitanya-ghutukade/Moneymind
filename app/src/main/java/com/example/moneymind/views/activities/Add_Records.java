@@ -1,4 +1,4 @@
-package com.example.moneymind;
+package com.example.moneymind.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -10,10 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.moneymind.R;
 
 public class Add_Records extends AppCompatActivity {
     AppCompatButton btnIncome;

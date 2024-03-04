@@ -35,6 +35,22 @@
     <color name="red">#ED1111</color>
     <color name="blue">#00BCD4</color>
     <color name="dark_green">#009688</color>
+    <color name="textcolor">#535252</color>
+
+
+    <color name="category1">#F44336</color>
+    <color name="category2">#E91E63</color>
+    <color name="category3">#9C27B0</color>
+    <color name="category4">#2196F3</color>
+    <color name="category5">#FF9800</color>
+    <color name="category6">#FFC107</color>
+
+
+    <color name="bank_color">#4CAF50</color>
+    <color name="card_color">#CDDC39</color>
+    <color name="paytm_color">#2196F3</color>
+    <color name="cash_color">#00BCD4</color>
+    <color name="default_color">#00BCD4</color>
 
 
 </resources>

@@ -19,7 +19,8 @@
             android:id="@+id/dashboard_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/custom_green" />
+            android:background="@color/custom_green"
+            app:titleTextColor="@color/background_color" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -45,6 +46,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="14oct 2024"
+            android:textColor="@color/background_color"
             android:textSize="25dp" />
 
         <ImageView
@@ -96,6 +98,7 @@
     </com.google.android.material.tabs.TabLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -167,7 +170,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_btn"
+        android:id="@+id/fabBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
@@ -191,5 +194,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/transactionlist"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:listitem="@layout/row_transaction" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

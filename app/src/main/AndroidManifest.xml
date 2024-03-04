@@ -14,16 +14,16 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".Account_page"
+            android:name=".views.activities.Account_page"
             android:exported="true" />
         <activity
-            android:name=".Add_Records"
+            android:name=".views.activities.Add_Records"
             android:exported="true" />
         <activity
-            android:name=".Records"
+            android:name=".RecyclerRecordsAdapter$Records"
             android:exported="true" />
         <activity
-            android:name=".Splashscreen"
+            android:name=".views.activities.Splashscreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,14 +32,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Registration"
+            android:name=".views.activities.Registration"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".views.activities.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".views.activities.MainActivity"
             android:exported="true" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -1,15 +1,13 @@
-package com.example.moneymind;// SplashActivity.java
+package com.example.moneymind.views.activities;// SplashActivity.java
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
+import com.example.moneymind.R;
 
 public class Splashscreen extends AppCompatActivity {
 
@@ -27,11 +25,11 @@ public class Splashscreen extends AppCompatActivity {
                 Boolean IsLoggedIn=prefs.getBoolean("IsLoggedIn",false);
                 if(IsLoggedIn){
 
-                    startActivity(new Intent(Splashscreen.this,Account_page.class));
+                    startActivity(new Intent(Splashscreen.this, MainActivity.class));
                     finish();
                 }
                 else{
-                    startActivity(new Intent(Splashscreen.this,LoginActivity.class));
+                    startActivity(new Intent(Splashscreen.this, LoginActivity.class));
                 }
 
 

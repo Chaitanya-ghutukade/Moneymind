@@ -1,4 +1,4 @@
-package com.example.moneymind;
+package com.example.moneymind.models;
 
 import androidx.lifecycle.ViewModel;
 
