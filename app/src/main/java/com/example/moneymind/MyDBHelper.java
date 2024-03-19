@@ -13,11 +13,13 @@ import com.example.moneymind.utils.Helper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MainDB";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     // User table
     private static final String USER_TABLE_NAME = "Users";
@@ -75,14 +77,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
         // Create transaction table
         String createTransactionTable = "CREATE TABLE " + TRANSACTION_TABLE_NAME + " (" +
                 TRANSACTION_COLUMN_ID + " LONG PRIMARY KEY, " +
-              //  TRANSACTION_COLUMN_ACCOUNT_ID + " INTEGER, " +
+                //  TRANSACTION_COLUMN_ACCOUNT_ID + " INTEGER, " +
                 TRANSACTION_COLUMN_TYPE + " TEXT, " +
                 TRANSACTION_COLUMN_CATEGORY + " TEXT, " +
                 TRANSACTION_COLUMN_ACCOUNT + " TEXT, " +
                 TRANSACTION_COLUMN_AMOUNT + " DOUBLE, " +
                 TRANSACTION_COLUMN_NOTE + " TEXT, " +
-                TRANSACTION_COLUMN_DATE + " LONG " +
-               // "FOREIGN KEY(" + TRANSACTION_COLUMN_ACCOUNT_ID + ") REFERENCES " + ACCOUNT_TABLE_NAME + "(" + ACCOUNT_COLUMN_ID +
+                TRANSACTION_COLUMN_DATE + " TEXT " +
+                // "FOREIGN KEY(" + TRANSACTION_COLUMN_ACCOUNT_ID + ") REFERENCES " + ACCOUNT_TABLE_NAME + "(" + ACCOUNT_COLUMN_ID +
                 ")";
         db.execSQL(createTransactionTable);
 
@@ -125,14 +127,15 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public long addtransaction(long transactionId, String transactionType, String transactionCategory, String transactionAccount, double transactionAmount, String transactionNote, Date transactionDate) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        String formattedDate = Helper.format_date(transactionDate);
         values.put(TRANSACTION_COLUMN_ID, transactionId);
-      //  values.put(TRANSACTION_COLUMN_ACCOUNT_ID, transactionAccountId);
+        //  values.put(TRANSACTION_COLUMN_ACCOUNT_ID, transactionAccountId);
         values.put(TRANSACTION_COLUMN_TYPE, transactionType);
         values.put(TRANSACTION_COLUMN_CATEGORY, transactionCategory);
         values.put(TRANSACTION_COLUMN_ACCOUNT, transactionAccount);
         values.put(TRANSACTION_COLUMN_AMOUNT, transactionAmount);
         values.put(TRANSACTION_COLUMN_NOTE, transactionNote);
-        values.put(TRANSACTION_COLUMN_DATE, transactionDate.getTime());
+        values.put(TRANSACTION_COLUMN_DATE, formattedDate);
 
         return db.insert(TRANSACTION_TABLE_NAME, null, values);
     }
@@ -283,11 +286,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
     }
 
     // Method to fetch transaction details for a specific account ID and return as a list of Transaction objects
-    public ArrayList<Transaction> getTransactionDetailsForAccount() {
+    public ArrayList<Transaction> getTransactionDetailsForAccount(Calendar calendar) {
+
+        String formattedDate=Helper.format_date(calendar.getTime());
         ArrayList<Transaction> transactions = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String rawQuery = "SELECT * FROM " + TRANSACTION_TABLE_NAME;
-        Cursor cursor = db.rawQuery(rawQuery, null);
+        String rawQuery = "SELECT * FROM " + TRANSACTION_TABLE_NAME +" WHERE "+ TRANSACTION_COLUMN_DATE +" = ? ";
+        String[] selectionArgs = {formattedDate};
+        Cursor cursor = db.rawQuery(rawQuery, selectionArgs);
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 long id = -1;
@@ -330,14 +336,19 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
                 int dateIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_DATE);
                 if (dateIndex >= 0) {
-                   long miliseconds=cursor.getLong(dateIndex);
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM,yy", Locale.getDefault());
+                        date = dateFormat.parse(cursor.getString(dateIndex));
 
-                   date=new Date(miliseconds);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        // Handle parsing exception
+                    }
 
 
                 }
 
-                Transaction transaction = new Transaction( type, category, note, account,date,amount,id );
+                Transaction transaction = new Transaction(type, category, note, account, date, amount, id);
 
                 transactions.add(transaction);
             } while (cursor.moveToNext());
@@ -346,5 +357,84 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return transactions;
     }
 
+    public double getTotalIncomeForDate(Calendar calendar) {
+        double totalIncome = 0;
+        String formattedDate = Helper.format_date(calendar.getTime());
+
+        // Create your SQLite query to fetch total income for the given date
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_income FROM " + TRANSACTION_TABLE_NAME + " WHERE " + TRANSACTION_COLUMN_DATE + " = ? AND " + TRANSACTION_COLUMN_TYPE + " = ?";
+        String[] selectionArgs = {formattedDate, "INCOME"};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        // Retrieve the sum of income from the cursor
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex("total_income");
+            if (columnIndex >= 0) {
+                totalIncome = cursor.getDouble(columnIndex);
+            }
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return totalIncome;
+    }
+    public double getTotalExpenseForDate(Calendar calendar) {
+        double totalExpense= 0;
+        String formattedDate = Helper.format_date(calendar.getTime());
+
+        // Create your SQLite query to fetch total income for the given date
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_expense FROM " + TRANSACTION_TABLE_NAME + " WHERE " + TRANSACTION_COLUMN_DATE + " = ? AND " + TRANSACTION_COLUMN_TYPE + " = ?";
+        String[] selectionArgs = {formattedDate, "EXPENSE"};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        // Retrieve the sum of income from the cursor
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex("total_expense");
+            if (columnIndex >= 0) {
+                totalExpense = cursor.getDouble(columnIndex);
+            }
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return totalExpense;
+    }
+
+    public double getTotalAccountForDate(Calendar calendar) {
+        double totalAccount= 0;
+        String formattedDate = Helper.format_date(calendar.getTime());
+
+        // Create your SQLite query to fetch total income for the given date
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_expense FROM " + TRANSACTION_TABLE_NAME + " WHERE " + TRANSACTION_COLUMN_DATE + " = ?  " ;
+        String[] selectionArgs = {formattedDate};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        // Retrieve the sum of income from the cursor
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex("total_expense");
+            if (columnIndex >= 0) {
+                totalAccount = cursor.getDouble(columnIndex);
+            }
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return totalAccount;
+    }
 
 }
+
+
+

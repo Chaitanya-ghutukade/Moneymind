@@ -2,6 +2,9 @@ package com.example.moneymind.views.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
@@ -21,6 +24,7 @@ import com.example.moneymind.databinding.ActivityMainBinding;
 import com.example.moneymind.models.Transaction;
 import com.example.moneymind.utils.Constants;
 import com.example.moneymind.utils.Helper;
+import com.example.moneymind.viewmodel.MainViewModel;
 import com.example.moneymind.views.fragments.addtransactionfragment;
 
 import java.text.SimpleDateFormat;
@@ -34,13 +38,15 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     Calendar calendar;
 
-
+    MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        viewModel=new ViewModelProvider(this).get(MainViewModel.class);
         setSupportActionBar(binding.dashboardToolbar);
         getSupportActionBar().setTitle("Dashboard");
         Constants.setCategory();
@@ -83,23 +89,56 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                   new addtransactionfragment().show(getSupportFragmentManager(),null);
+
             }
         });
 
 
-        ArrayList<Transaction> transactions=new ArrayList<>();
-        MyDBHelper db=new MyDBHelper(this);
-        db.addtransaction(1,"INCOME","Business","Cash",500,"some note here",new Date());
-        db.addtransaction(2,"EXPENSE","Business","Cash",500,"some note here",new Date());
-        transactions=db.getTransactionDetailsForAccount();
-        TransactionAdapter transactionAdapter=new TransactionAdapter(this,transactions);
+        viewModel.addTransactions();
+
         binding.transactionlist.setLayoutManager(new LinearLayoutManager(this));
-        binding.transactionlist.setAdapter(transactionAdapter);
+
+        viewModel.transaction.observe(this,new Observer<ArrayList<Transaction>>(){
+            @Override
+            public void onChanged(ArrayList<Transaction> transactions) {
+
+
+                TransactionAdapter transactionAdapter=new TransactionAdapter(MainActivity.this,transactions);
+
+                binding.transactionlist.setAdapter(transactionAdapter);
+
+            }
+        });
+
+        viewModel.totalIncome.observe(this, new Observer<Double>() {
+            @Override
+            public void onChanged(Double aDouble) {
+                binding.incomeLabel.setText(String.valueOf(aDouble));
+            }
+        });
+
+        viewModel.totalExpense.observe(this, new Observer<Double>() {
+            @Override
+            public void onChanged(Double aDouble) {
+                binding.expenseLabel.setText(String.valueOf(aDouble));
+            }
+        });
+        viewModel.totalAccount.observe(this, new Observer<Double>() {
+            @Override
+            public void onChanged(Double aDouble) {
+                binding.totalLabel.setText(String.valueOf(aDouble));
+            }
+        });
+        viewModel.getTransactions(calendar);
+
+
+
 
     }
      void updateDate(){
 
          binding.date.setText(Helper.format_date(calendar.getTime()));
+         viewModel.getTransactions(calendar);
     }
 
 

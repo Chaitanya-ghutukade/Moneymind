@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
+import com.example.moneymind.MyDBHelper;
 import com.example.moneymind.R;
 import com.example.moneymind.adapters.Account_Adapter;
 import com.example.moneymind.adapters.Category_Adapter;
@@ -153,11 +155,14 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
         binding.saveTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyDBHelper db=new MyDBHelper(getContext());
 
+                Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
 
 
             }
         });
+
 
         return binding.getRoot();
     }
