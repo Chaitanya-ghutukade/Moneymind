@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 
 import android.view.Menu;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.example.moneymind.MyDBHelper;
 import com.example.moneymind.R;
 import com.example.moneymind.adapters.TransactionAdapter;
 import com.example.moneymind.databinding.ActivityMainBinding;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Calendar calendar;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +44,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.dashboardToolbar);
         getSupportActionBar().setTitle("Dashboard");
         Constants.setCategory();
-
         calendar=Calendar.getInstance();
         updateDate();
+
+        SharedPreferences sh=getSharedPreferences("userDetails",MODE_PRIVATE);
+        int user_id=sh.getInt("userId",-1);
+        int account_id=sh.getInt("accountId",-1);
+
+
+
 
         binding.nextDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,12 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         ArrayList<Transaction> transactions=new ArrayList<>();
-        transactions.add(new Transaction("INCOME","Business","some note here","Cash",new Date(),500,2));
-        transactions.add(new Transaction("EXPENSE","Salary","some note here","Cash",new Date(),500,2));
-        transactions.add(new Transaction("INCOME","Business","some note here","Cash",new Date(),500,2));
-        transactions.add(new Transaction("EXPENSE","Business","some note here","Cash",new Date(),500,2));
-        transactions.add(new Transaction("INCOME","Business","some note here","Cash",new Date(),500,2));
-
+        MyDBHelper db=new MyDBHelper(this);
+        db.addtransaction(1,"INCOME","Business","Cash",500,"some note here",new Date());
+        db.addtransaction(2,"EXPENSE","Business","Cash",500,"some note here",new Date());
+        transactions=db.getTransactionDetailsForAccount();
         TransactionAdapter transactionAdapter=new TransactionAdapter(this,transactions);
         binding.transactionlist.setLayoutManager(new LinearLayoutManager(this));
         binding.transactionlist.setAdapter(transactionAdapter);

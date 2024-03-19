@@ -27,6 +27,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class addtransactionfragment extends BottomSheetDialogFragment {
@@ -145,6 +146,15 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                 dialogbinding.recyclerView.setAdapter(adapter);
 
                 accountdialog.show();
+
+            }
+        });
+
+        binding.saveTransaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
 
             }
         });

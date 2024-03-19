@@ -9,6 +9,8 @@ public class Transaction {
     private double amount;
     private long id;
 
+    private long acc_id;
+
     public Transaction() {
     }
 
@@ -20,6 +22,16 @@ public class Transaction {
         this.date = date;
         this.amount = amount;
         this.id = id;
+        this.acc_id=acc_id;
+    }
+
+
+    public long getAcc_id() {
+        return acc_id;
+    }
+
+    public void setAcc_id(long acc_id) {
+        this.acc_id = acc_id;
     }
 
     public String getType() {

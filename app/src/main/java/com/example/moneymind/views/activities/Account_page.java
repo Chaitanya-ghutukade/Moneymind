@@ -72,10 +72,13 @@ public class Account_page extends AppCompatActivity {
                 String selectedAccount = adapter.getItem(position);
                 int Account_id = db2.get_account_id(selectedAccount, user_id);
                 Intent intent = new Intent(Account_page.this, MainActivity.class);
-                intent.putExtra("Account_id", Account_id);
-                intent.putExtra("User_id", user_id);
-                intent.putExtra("User_name", stored_user_name);
                 startActivity(intent);
+
+               SharedPreferences sh=getSharedPreferences("userDetails",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sh.edit();
+                editor.putInt("userId",user_id);
+                editor.putInt("accountId",Account_id);
+                editor.apply();
                 // Handle button click here
                 Toast.makeText(Account_page.this, "Selected Account: " + selectedAccount, Toast.LENGTH_SHORT).show();
             }
