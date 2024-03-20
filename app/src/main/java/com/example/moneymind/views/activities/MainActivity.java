@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     Calendar calendar;
 
-    MainViewModel viewModel;
+     public MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        viewModel.addTransactions();
+
 
         binding.transactionlist.setLayoutManager(new LinearLayoutManager(this));
 
@@ -134,6 +134,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void getTransaction(){
+        viewModel.getTransactions(calendar);
     }
      void updateDate(){
 

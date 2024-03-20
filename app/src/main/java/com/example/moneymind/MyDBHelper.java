@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MainDB";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION =5;
 
     // User table
     private static final String USER_TABLE_NAME = "Users";
@@ -46,7 +46,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
     private static final String TRANSACTION_COLUMN_NOTE = "TransactionNote";
     private static final String TRANSACTION_COLUMN_DATE = "TransactionDate";
     private static final String TRANSACTION_COLUMN_ID = "TransactionId";
-    private static final String TRANSACTION_COLUMN_ACCOUNT_ID = "TransactionAccountId";
+   // private static final String TRANSACTION_COLUMN_ACCOUNT_ID = "TransactionAccountId";
 
 
     public MyDBHelper(Context context) {
@@ -124,22 +124,21 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return db.insert(ACCOUNT_TABLE_NAME, null, values);
     }
 
-    public long addtransaction(long transactionId, String transactionType, String transactionCategory, String transactionAccount, double transactionAmount, String transactionNote, Date transactionDate) {
+    public long addtransaction(Transaction transaction) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        String formattedDate = Helper.format_date(transactionDate);
-        values.put(TRANSACTION_COLUMN_ID, transactionId);
+        String formattedDate = Helper.format_date(transaction.getDate());
+        values.put(TRANSACTION_COLUMN_ID, transaction.getId());
         //  values.put(TRANSACTION_COLUMN_ACCOUNT_ID, transactionAccountId);
-        values.put(TRANSACTION_COLUMN_TYPE, transactionType);
-        values.put(TRANSACTION_COLUMN_CATEGORY, transactionCategory);
-        values.put(TRANSACTION_COLUMN_ACCOUNT, transactionAccount);
-        values.put(TRANSACTION_COLUMN_AMOUNT, transactionAmount);
-        values.put(TRANSACTION_COLUMN_NOTE, transactionNote);
+        values.put(TRANSACTION_COLUMN_TYPE, transaction.getType());
+        values.put(TRANSACTION_COLUMN_CATEGORY, transaction.getCategory());
+        values.put(TRANSACTION_COLUMN_ACCOUNT, transaction.getAccount());
+        values.put(TRANSACTION_COLUMN_AMOUNT, transaction.getAmount());
+        values.put(TRANSACTION_COLUMN_NOTE, transaction.getNote());
         values.put(TRANSACTION_COLUMN_DATE, formattedDate);
 
         return db.insert(TRANSACTION_TABLE_NAME, null, values);
     }
-
     public boolean checkUsername(String Username) {
         SQLiteDatabase userdb = this.getWritableDatabase();
         Cursor cursor = userdb.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_COLUMN_USERNAME + "=?", new String[]{Username});

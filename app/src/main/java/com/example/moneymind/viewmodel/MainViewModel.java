@@ -42,13 +42,11 @@ public class MainViewModel extends AndroidViewModel {
         transaction.setValue(newTransactions);
     }
 
-    public void addTransactions() {
+    public void addTransactions(Transaction transaction) {
 
         MyDBHelper db = new MyDBHelper(this.getApplication());
-        db.addtransaction(1, "INCOME", "Business", "Cash", 500, "some note here", new Date());
-        db.addtransaction(2, "EXPENSE", "Business", "Cash", -500, "some note here", new Date());
-        db.addtransaction(4, "EXPENSE", "Business", "Cash", -50, "some note here", new Date());
-        db.addtransaction(5, "EXPENSE", "Business", "Cash", -90, "some note here", new Date());
+        db.addtransaction(transaction);
+
 
     }
 }

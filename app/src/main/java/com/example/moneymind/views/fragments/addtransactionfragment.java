@@ -22,8 +22,10 @@ import com.example.moneymind.databinding.FragmentAddtransactionfragmentBinding;
 import com.example.moneymind.databinding.ListDialogBinding;
 import com.example.moneymind.models.Account;
 import com.example.moneymind.models.Category;
+import com.example.moneymind.models.Transaction;
 import com.example.moneymind.utils.Constants;
 import com.example.moneymind.utils.Helper;
+import com.example.moneymind.views.activities.MainActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.text.SimpleDateFormat;
@@ -49,11 +51,14 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
 
     FragmentAddtransactionfragmentBinding binding;
 
+    Transaction transaction;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentAddtransactionfragmentBinding.inflate(inflater);
+        transaction=new Transaction();
 
         binding.incomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +67,7 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                 binding.incomeBtn.setTextColor(getContext().getColor(R.color.green));
                 binding.expenseBtn.setBackground(getContext().getDrawable(R.drawable.default_selector));
                 binding.expenseBtn.setTextColor(getContext().getColor(R.color.textcolor));
+                transaction.setType(Constants.INCOME);
             }
         });
 
@@ -72,6 +78,7 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                 binding.expenseBtn.setTextColor(getContext().getColor(R.color.red));
                 binding.incomeBtn.setBackground(getContext().getDrawable(R.drawable.default_selector));
                 binding.incomeBtn.setTextColor(getContext().getColor(R.color.textcolor));
+                transaction.setType(Constants.EXPENSE);
             }
         });
 
@@ -91,6 +98,8 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                         String showdate = Helper.format_date(calendar.getTime());
 
                         binding.date.setText(showdate);
+                        transaction.setDate(calendar.getTime());
+                        transaction.setId(calendar.getTime().getTime());
                     }
                 });
 
@@ -111,6 +120,7 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                     @Override
                     public void onCategoryClicked(Category category) {
                         binding.category.setText(category.getCategoryName());
+                        transaction.setCategory(category.getCategoryName());
                         categorydialog.dismiss();
                     }
                 });
@@ -118,6 +128,7 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                 dialogbinding.recyclerView.setAdapter(categoryAdapter);
 
                 categorydialog.show();
+
 
             }
         });
@@ -141,6 +152,7 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                     @Override
                     public void onAccountClick(Account account) {
                         binding.account.setText(account.getAccountName());
+                        transaction.setAccount(account.getAccountName());
                         accountdialog.dismiss();
                     }
                 });
@@ -155,10 +167,22 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
         binding.saveTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyDBHelper db=new MyDBHelper(getContext());
 
-                Toast.makeText(getContext(),"hello",Toast.LENGTH_SHORT).show();
+                double amount=Double.parseDouble(binding.amount.getText().toString());
+                String note=binding.note.getText().toString();
+                transaction.setNote(note);
 
+                if(transaction.getType().equals(Constants.EXPENSE)) {
+                    transaction.setAmount(amount * -1);
+
+                }else {
+                    transaction.setAmount(amount);
+                }
+
+                ((MainActivity)getActivity()).viewModel.addTransactions(transaction);
+                ((MainActivity)getActivity()).getTransaction();
+
+                dismiss();
 
             }
         });
