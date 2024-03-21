@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.moneymind.models.Transaction;
 import com.example.moneymind.models.Userdata;
+import com.example.moneymind.utils.Constants;
 import com.example.moneymind.utils.Helper;
 
 import java.text.ParseException;
@@ -368,6 +369,83 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return transactions;
     }
 
+    public ArrayList<Transaction> getTransactionDetailsOfMonths(Calendar calendar) {
+
+        String formattedDate=Helper.format_date_month(calendar.getTime());
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Assuming tableName and dateColumnName are String variables representing the table name and date column respectively
+
+        String query = "SELECT * FROM " + TRANSACTION_TABLE_NAME +
+                " WHERE " + TRANSACTION_COLUMN_DATE + " LIKE ?";
+
+
+        Cursor cursor = db.rawQuery(query, new String[]{"% " + formattedDate});
+
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                long id = -1;
+                String type = null;
+                String category = null;
+                String account = null;
+                double amount = 0.0;
+                String note = null;
+                Date date = null;
+
+                int idIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_ID);
+                if (idIndex >= 0) {
+                    id = cursor.getLong(idIndex);
+                }
+
+                int typeIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_TYPE);
+                if (typeIndex >= 0) {
+                    type = cursor.getString(typeIndex);
+                }
+
+                int categoryIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_CATEGORY);
+                if (categoryIndex >= 0) {
+                    category = cursor.getString(categoryIndex);
+                }
+
+                int accountIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_ACCOUNT);
+                if (accountIndex >= 0) {
+                    account = cursor.getString(accountIndex);
+                }
+
+                int amountIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_AMOUNT);
+                if (amountIndex >= 0) {
+                    amount = cursor.getDouble(amountIndex);
+                }
+
+                int noteIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_NOTE);
+                if (noteIndex >= 0) {
+                    note = cursor.getString(noteIndex);
+                }
+
+                int dateIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_DATE);
+                if (dateIndex >= 0) {
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM,yy", Locale.getDefault());
+                        date = dateFormat.parse(cursor.getString(dateIndex));
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        // Handle parsing exception
+                    }
+
+
+                }
+
+                Transaction transaction = new Transaction(type, category, note, account, date, amount, id);
+
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return transactions;
+    }
+
     public double getTotalIncomeForDate(Calendar calendar) {
         double totalIncome = 0;
         String formattedDate = Helper.format_date(calendar.getTime());
@@ -393,6 +471,39 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         return totalIncome;
     }
+
+    public double getTotalIncomeForMonth(Calendar calendar) {
+        double totalIncome = 0;
+        String formattedDate = Helper.format_date_month(calendar.getTime());
+
+        // Create your SQLite query to fetch total income for the given date
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_income FROM " +
+                TRANSACTION_TABLE_NAME + " WHERE " +
+                TRANSACTION_COLUMN_DATE + " LIKE ? AND " +
+                TRANSACTION_COLUMN_TYPE + " = ?";
+
+        String[] selectionArgs = {"% " + formattedDate, "INCOME"};
+
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        // Retrieve the sum of income from the cursor
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex("total_income");
+            if (columnIndex >= 0) {
+                totalIncome = cursor.getDouble(columnIndex);
+            }
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return totalIncome;
+    }
+
     public double getTotalExpenseForDate(Calendar calendar) {
         double totalExpense= 0;
         String formattedDate = Helper.format_date(calendar.getTime());
@@ -401,6 +512,38 @@ public class MyDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_expense FROM " + TRANSACTION_TABLE_NAME + " WHERE " + TRANSACTION_COLUMN_DATE + " = ? AND " + TRANSACTION_COLUMN_TYPE + " = ?";
         String[] selectionArgs = {formattedDate, "EXPENSE"};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        // Retrieve the sum of income from the cursor
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex("total_expense");
+            if (columnIndex >= 0) {
+                totalExpense = cursor.getDouble(columnIndex);
+            }
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return totalExpense;
+    }
+
+    public double getTotalExpenseForMonth(Calendar calendar) {
+        double totalExpense= 0;
+        String formattedDate = Helper.format_date_month(calendar.getTime());
+
+        // Create your SQLite query to fetch total income for the given date
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_expense FROM " +
+                TRANSACTION_TABLE_NAME + " WHERE " +
+                TRANSACTION_COLUMN_DATE + " LIKE ? AND " +
+                TRANSACTION_COLUMN_TYPE + " = ?";
+
+        String[] selectionArgs = {"% " + formattedDate, "EXPENSE"};
+
 
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
@@ -428,6 +571,36 @@ public class MyDBHelper extends SQLiteOpenHelper {
         String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_expense FROM " + TRANSACTION_TABLE_NAME + " WHERE " + TRANSACTION_COLUMN_DATE + " = ?  " ;
         String[] selectionArgs = {formattedDate};
 
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        // Retrieve the sum of income from the cursor
+        if (cursor != null && cursor.moveToFirst()) {
+            int columnIndex = cursor.getColumnIndex("total_expense");
+            if (columnIndex >= 0) {
+                totalAccount = cursor.getDouble(columnIndex);
+            }
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return totalAccount;
+    }
+
+    public double getTotalAccountForMonth(Calendar calendar) {
+        double totalAccount= 0;
+        String formattedDate = Helper.format_date_month(calendar.getTime());
+
+        // Create your SQLite query to fetch total income for the given date
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT SUM(" + TRANSACTION_COLUMN_AMOUNT + ") AS total_expense FROM " +
+                TRANSACTION_TABLE_NAME + " WHERE " +
+                TRANSACTION_COLUMN_DATE + " LIKE ?  ";
+
+
+        String[] selectionArgs = {"% " + formattedDate};
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
         // Retrieve the sum of income from the cursor

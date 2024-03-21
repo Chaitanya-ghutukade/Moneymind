@@ -26,17 +26,29 @@ import com.example.moneymind.utils.Constants;
 import com.example.moneymind.utils.Helper;
 import com.example.moneymind.viewmodel.MainViewModel;
 import com.example.moneymind.views.fragments.addtransactionfragment;
+import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     Calendar calendar;
+
+    /*
+        0=Daily
+        1=Monthly
+        2=Calender
+        3=Summary
+        4=Notes
+     */
+
+    int selectedTab=0;
 
      public MainViewModel viewModel;
 
@@ -63,7 +75,11 @@ public class MainActivity extends AppCompatActivity {
         binding.nextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calendar.add(Calendar.DATE,1);
+                if( Constants.SELECTED_TAB ==Constants.DAILY ) {
+                    calendar.add(Calendar.DATE, 1);
+                }else if(Constants.SELECTED_TAB ==Constants.MONTHLY){
+                    calendar.add(Calendar.MONTH,1);
+                }
                 updateDate();
             }
 
@@ -71,9 +87,40 @@ public class MainActivity extends AppCompatActivity {
         binding.previousDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calendar.add(Calendar.DATE,-1);
+                if( Constants.SELECTED_TAB == Constants.DAILY) {
+                    calendar.add(Calendar.DATE, -1);
+                }else if( Constants.SELECTED_TAB == Constants.MONTHLY){
+                    calendar.add(Calendar.MONTH,-1);
+                }
                 updateDate();
             }
+
+        });
+
+        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                if(tab.getText().equals("Daily")){
+                    Constants.SELECTED_TAB=Constants.DAILY;
+                    updateDate();
+                }else if(tab.getText().equals("Monthly")){
+                   Constants.SELECTED_TAB=Constants.MONTHLY;
+                    updateDate();
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+
 
         });
 
@@ -146,8 +193,11 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getTransactions(calendar);
     }
      void updateDate(){
-
-         binding.date.setText(Helper.format_date(calendar.getTime()));
+        if( Constants.SELECTED_TAB ==Constants.DAILY) {
+            binding.date.setText(Helper.format_date(calendar.getTime()));
+        }else if(Constants.SELECTED_TAB ==Constants.MONTHLY){
+            binding.date.setText(Helper.format_date_month(calendar.getTime()));
+        }
          viewModel.getTransactions(calendar);
     }
 
