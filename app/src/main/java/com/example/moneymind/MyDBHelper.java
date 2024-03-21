@@ -19,7 +19,7 @@ import java.util.Locale;
 
 public class MyDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MainDB";
-    private static final int DATABASE_VERSION =5;
+    private static final int DATABASE_VERSION =6;
 
     // User table
     private static final String USER_TABLE_NAME = "Users";
@@ -139,6 +139,18 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         return db.insert(TRANSACTION_TABLE_NAME, null, values);
     }
+
+
+
+    public void deleteTransaction(Transaction transaction) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long transactionId = transaction.getId();
+        String[] whereArgs = new String[]{String.valueOf(transactionId)};
+        String sql = "DELETE FROM " + TRANSACTION_TABLE_NAME + " WHERE " + TRANSACTION_COLUMN_ID + " = ?";
+        db.execSQL(sql, whereArgs);
+
+    }
+
     public boolean checkUsername(String Username) {
         SQLiteDatabase userdb = this.getWritableDatabase();
         Cursor cursor = userdb.rawQuery("SELECT * FROM " + USER_TABLE_NAME + " WHERE " + USER_COLUMN_USERNAME + "=?", new String[]{Username});

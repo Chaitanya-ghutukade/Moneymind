@@ -1,6 +1,9 @@
 package com.example.moneymind.adapters;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.SurfaceControl;
 import android.view.View;
@@ -15,6 +18,7 @@ import com.example.moneymind.models.Category;
 import com.example.moneymind.models.Transaction;
 import com.example.moneymind.utils.Constants;
 import com.example.moneymind.utils.Helper;
+import com.example.moneymind.views.activities.MainActivity;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -52,6 +56,37 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         } else if (transaction.getType().equals(Constants.EXPENSE)) {
             holder.binding.transactionAmount.setTextColor(context.getColor(R.color.red));
         }
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog deleteDialog = new AlertDialog.Builder(context).create();
+                deleteDialog.setTitle("Delete Transaction");
+                deleteDialog.setMessage("Are you sure to delete this transaction?");
+                deleteDialog.setButton(DialogInterface.BUTTON_POSITIVE, "yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ((MainActivity)context).viewModel.deleteTransaction(transaction);
+
+
+                    }
+                });
+                deleteDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteDialog.dismiss();
+                    }
+                });
+
+
+
+                deleteDialog.show();
+                return false;
+            }
+        });
+
+
 
 
 

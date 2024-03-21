@@ -106,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
                 TransactionAdapter transactionAdapter=new TransactionAdapter(MainActivity.this,transactions);
 
                 binding.transactionlist.setAdapter(transactionAdapter);
+                if(transactions.size() > 0){
+                    binding.emptyState.setVisibility(View.GONE);
+
+                }else{
+                    binding.emptyState.setVisibility(View.VISIBLE);
+                }
 
             }
         });

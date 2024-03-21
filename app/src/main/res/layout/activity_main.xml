@@ -212,4 +212,17 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:listitem="@layout/row_transaction" />
 
+    <ImageView
+        android:id="@+id/emptyState"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="139dp"
+        android:alpha="0.5"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:srcCompat="@drawable/emptystate" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

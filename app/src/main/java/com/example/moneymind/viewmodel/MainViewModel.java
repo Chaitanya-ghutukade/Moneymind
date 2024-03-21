@@ -21,7 +21,9 @@ public class MainViewModel extends AndroidViewModel {
     public MutableLiveData<ArrayList<Transaction>> transaction = new MutableLiveData<>();
     public MutableLiveData<Double> totalIncome = new MutableLiveData<>();
     public MutableLiveData<Double> totalExpense = new MutableLiveData<>();
-    public MutableLiveData<Double> totalAccount= new MutableLiveData<>();
+    public MutableLiveData<Double> totalAccount = new MutableLiveData<>();
+
+    Calendar calendar;
 
 
     public MainViewModel(@NonNull Application application) {
@@ -29,13 +31,13 @@ public class MainViewModel extends AndroidViewModel {
     }
 
 
-
     public void getTransactions(Calendar calendar) {
+        this.calendar=calendar;
         ArrayList<Transaction> newTransactions = new ArrayList<>();
         newTransactions = db.getTransactionDetailsForAccount(calendar);
-        double income=db.getTotalIncomeForDate(calendar);
-        double expense=db.getTotalExpenseForDate(calendar);
-        double total=db.getTotalAccountForDate(calendar);
+        double income = db.getTotalIncomeForDate(calendar);
+        double expense = db.getTotalExpenseForDate(calendar);
+        double total = db.getTotalAccountForDate(calendar);
         totalAccount.setValue(total);
         totalExpense.setValue(expense);
         totalIncome.setValue(income);
@@ -44,9 +46,18 @@ public class MainViewModel extends AndroidViewModel {
 
     public void addTransactions(Transaction transaction) {
 
-        MyDBHelper db = new MyDBHelper(this.getApplication());
+
         db.addtransaction(transaction);
 
 
     }
+
+    public void deleteTransaction(Transaction transaction) {
+
+        db.deleteTransaction(transaction);
+        getTransactions(calendar);
+
+
+    }
+
 }
