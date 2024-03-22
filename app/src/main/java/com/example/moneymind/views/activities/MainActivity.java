@@ -1,7 +1,9 @@
 package com.example.moneymind.views.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,6 +14,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +28,10 @@ import com.example.moneymind.models.Transaction;
 import com.example.moneymind.utils.Constants;
 import com.example.moneymind.utils.Helper;
 import com.example.moneymind.viewmodel.MainViewModel;
+import com.example.moneymind.views.fragments.StatsFragment;
+import com.example.moneymind.views.fragments.TransactionsFragment;
 import com.example.moneymind.views.fragments.addtransactionfragment;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
@@ -63,68 +69,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Dashboard");
         Constants.setCategory();
         calendar=Calendar.getInstance();
-        updateDate();
 
         SharedPreferences sh=getSharedPreferences("userDetails",MODE_PRIVATE);
         int user_id=sh.getInt("userId",-1);
         int account_id=sh.getInt("accountId",-1);
-
-
-
-
-        binding.nextDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( Constants.SELECTED_TAB ==Constants.DAILY ) {
-                    calendar.add(Calendar.DATE, 1);
-                }else if(Constants.SELECTED_TAB ==Constants.MONTHLY){
-                    calendar.add(Calendar.MONTH,1);
-                }
-                updateDate();
-            }
-
-        });
-        binding.previousDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( Constants.SELECTED_TAB == Constants.DAILY) {
-                    calendar.add(Calendar.DATE, -1);
-                }else if( Constants.SELECTED_TAB == Constants.MONTHLY){
-                    calendar.add(Calendar.MONTH,-1);
-                }
-                updateDate();
-            }
-
-        });
-
-        binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-                if(tab.getText().equals("Daily")){
-                    Constants.SELECTED_TAB=Constants.DAILY;
-                    updateDate();
-                }else if(tab.getText().equals("Monthly")){
-                   Constants.SELECTED_TAB=Constants.MONTHLY;
-                    updateDate();
-                }
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-
-
-        });
-
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -132,58 +80,31 @@ public class MainActivity extends AppCompatActivity {
             window.setStatusBarColor(ContextCompat.getColor(this, R.color.custom_green));
         }
 
-        binding.fabBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                  new addtransactionfragment().show(getSupportFragmentManager(),null);
-
-            }
-        });
+        //This code snippet adds TransactionFragment class with this activity FrameLayout
+        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.content,new TransactionsFragment());
+        transaction.commit();
 
 
 
+      binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+          @Override
+          public boolean onNavigationItemSelected(@NonNull MenuItem Item) {
+              FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 
-        binding.transactionlist.setLayoutManager(new LinearLayoutManager(this));
+              if(Item.getItemId() == R.id.transactions){
+                  getSupportFragmentManager().popBackStack();
 
-        viewModel.transaction.observe(this,new Observer<ArrayList<Transaction>>(){
-            @Override
-            public void onChanged(ArrayList<Transaction> transactions) {
+              } else if (Item.getItemId() == R.id.stats) {
+                  transaction.replace(R.id.content,new StatsFragment());
+                  transaction.addToBackStack(null);
 
+              }
+              transaction.commit();
 
-                TransactionAdapter transactionAdapter=new TransactionAdapter(MainActivity.this,transactions);
-
-                binding.transactionlist.setAdapter(transactionAdapter);
-                if(transactions.size() > 0){
-                    binding.emptyState.setVisibility(View.GONE);
-
-                }else{
-                    binding.emptyState.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-
-        viewModel.totalIncome.observe(this, new Observer<Double>() {
-            @Override
-            public void onChanged(Double aDouble) {
-                binding.incomeLabel.setText(String.valueOf(aDouble));
-            }
-        });
-
-        viewModel.totalExpense.observe(this, new Observer<Double>() {
-            @Override
-            public void onChanged(Double aDouble) {
-                binding.expenseLabel.setText(String.valueOf(aDouble));
-            }
-        });
-        viewModel.totalAccount.observe(this, new Observer<Double>() {
-            @Override
-            public void onChanged(Double aDouble) {
-                binding.totalLabel.setText(String.valueOf(aDouble));
-            }
-        });
-        viewModel.getTransactions(calendar);
-
+              return true;
+          }
+      });
 
 
 
@@ -192,14 +113,9 @@ public class MainActivity extends AppCompatActivity {
     public void getTransaction(){
         viewModel.getTransactions(calendar);
     }
-     void updateDate(){
-        if( Constants.SELECTED_TAB ==Constants.DAILY) {
-            binding.date.setText(Helper.format_date(calendar.getTime()));
-        }else if(Constants.SELECTED_TAB ==Constants.MONTHLY){
-            binding.date.setText(Helper.format_date_month(calendar.getTime()));
-        }
-         viewModel.getTransactions(calendar);
-    }
+
+
+
 
 
     @Override

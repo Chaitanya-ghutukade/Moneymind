@@ -2,21 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/transactions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/transactions"
         android:title="Transaction" />
     <item
+        android:id="@+id/stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/chart"
         android:title="Stats" />
     <item
+        android:id="@+id/accounts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/accounts"
         android:title="Accounts" />
     <item
+        android:id="@+id/other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/other"

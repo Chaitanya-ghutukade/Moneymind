@@ -369,6 +369,77 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return transactions;
     }
 
+    public ArrayList<Transaction> getTransactionDetailsOfDayChart(Calendar calendar,String Type) {
+
+        String formattedDate=Helper.format_date(calendar.getTime());
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String rawQuery = "SELECT * FROM " + TRANSACTION_TABLE_NAME +" WHERE "+ TRANSACTION_COLUMN_DATE +" = ? AND " + TRANSACTION_COLUMN_TYPE + " = ?";
+        String[] selectionArgs = {formattedDate,Type};
+        Cursor cursor = db.rawQuery(rawQuery, selectionArgs);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                long id = -1;
+                String type = null;
+                String category = null;
+                String account = null;
+                double amount = 0.0;
+                String note = null;
+                Date date = null;
+
+                int idIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_ID);
+                if (idIndex >= 0) {
+                    id = cursor.getLong(idIndex);
+                }
+
+                int typeIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_TYPE);
+                if (typeIndex >= 0) {
+                    type = cursor.getString(typeIndex);
+                }
+
+                int categoryIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_CATEGORY);
+                if (categoryIndex >= 0) {
+                    category = cursor.getString(categoryIndex);
+                }
+
+                int accountIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_ACCOUNT);
+                if (accountIndex >= 0) {
+                    account = cursor.getString(accountIndex);
+                }
+
+                int amountIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_AMOUNT);
+                if (amountIndex >= 0) {
+                    amount = cursor.getDouble(amountIndex);
+                }
+
+                int noteIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_NOTE);
+                if (noteIndex >= 0) {
+                    note = cursor.getString(noteIndex);
+                }
+
+                int dateIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_DATE);
+                if (dateIndex >= 0) {
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM,yy", Locale.getDefault());
+                        date = dateFormat.parse(cursor.getString(dateIndex));
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        // Handle parsing exception
+                    }
+
+
+                }
+
+                Transaction transaction = new Transaction(type, category, note, account, date, amount, id);
+
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return transactions;
+    }
+
     public ArrayList<Transaction> getTransactionDetailsOfMonths(Calendar calendar) {
 
         String formattedDate=Helper.format_date_month(calendar.getTime());
@@ -381,6 +452,83 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
 
         Cursor cursor = db.rawQuery(query, new String[]{"% " + formattedDate});
+
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                long id = -1;
+                String type = null;
+                String category = null;
+                String account = null;
+                double amount = 0.0;
+                String note = null;
+                Date date = null;
+
+                int idIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_ID);
+                if (idIndex >= 0) {
+                    id = cursor.getLong(idIndex);
+                }
+
+                int typeIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_TYPE);
+                if (typeIndex >= 0) {
+                    type = cursor.getString(typeIndex);
+                }
+
+                int categoryIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_CATEGORY);
+                if (categoryIndex >= 0) {
+                    category = cursor.getString(categoryIndex);
+                }
+
+                int accountIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_ACCOUNT);
+                if (accountIndex >= 0) {
+                    account = cursor.getString(accountIndex);
+                }
+
+                int amountIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_AMOUNT);
+                if (amountIndex >= 0) {
+                    amount = cursor.getDouble(amountIndex);
+                }
+
+                int noteIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_NOTE);
+                if (noteIndex >= 0) {
+                    note = cursor.getString(noteIndex);
+                }
+
+                int dateIndex = cursor.getColumnIndex(TRANSACTION_COLUMN_DATE);
+                if (dateIndex >= 0) {
+                    try {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM,yy", Locale.getDefault());
+                        date = dateFormat.parse(cursor.getString(dateIndex));
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        // Handle parsing exception
+                    }
+
+
+                }
+
+                Transaction transaction = new Transaction(type, category, note, account, date, amount, id);
+
+                transactions.add(transaction);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+        return transactions;
+    }
+
+    public ArrayList<Transaction> getTransactionDetailsOfMonthsChart(Calendar calendar,String Type) {
+
+        String formattedDate=Helper.format_date_month(calendar.getTime());
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        // Assuming tableName and dateColumnName are String variables representing the table name and date column respectively
+
+        String query = "SELECT * FROM " + TRANSACTION_TABLE_NAME +
+                " WHERE " + TRANSACTION_COLUMN_DATE + " LIKE ? AND " + TRANSACTION_COLUMN_TYPE + " = ?";
+
+
+        Cursor cursor = db.rawQuery(query, new String[]{"% " + formattedDate,Type});
 
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -617,6 +765,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         return totalAccount;
     }
+
+
 
 }
 

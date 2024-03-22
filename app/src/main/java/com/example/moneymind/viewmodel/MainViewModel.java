@@ -20,6 +20,7 @@ public class MainViewModel extends AndroidViewModel {
 
 
     public MutableLiveData<ArrayList<Transaction>> transaction = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<Transaction>> categorytransaction = new MutableLiveData<>();
     public MutableLiveData<Double> totalIncome = new MutableLiveData<>();
     public MutableLiveData<Double> totalExpense = new MutableLiveData<>();
     public MutableLiveData<Double> totalAccount = new MutableLiveData<>();
@@ -29,6 +30,28 @@ public class MainViewModel extends AndroidViewModel {
 
     public MainViewModel(@NonNull Application application) {
         super(application);
+    }
+
+
+    public void getTransactionsChart(Calendar calendar, String Type) {
+        this.calendar = calendar;
+        ArrayList<Transaction> newTransactions = new ArrayList<>();
+
+
+        if (Constants.SELECTED_TAB_STATS == Constants.DAILY) {
+
+
+            newTransactions = db.getTransactionDetailsOfDayChart(calendar, Type);
+
+
+        } else if (Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
+
+            newTransactions = db.getTransactionDetailsOfMonthsChart(calendar, Type);
+
+        }
+
+
+        categorytransaction.setValue(newTransactions);
     }
 
 
@@ -47,12 +70,12 @@ public class MainViewModel extends AndroidViewModel {
             expense = db.getTotalExpenseForDate(calendar);
             total = db.getTotalAccountForDate(calendar);
 
-        }else if(Constants.SELECTED_TAB==Constants.MONTHLY){
+        } else if (Constants.SELECTED_TAB == Constants.MONTHLY) {
 
-            newTransactions=db.getTransactionDetailsOfMonths(calendar);
-            income=db.getTotalIncomeForMonth(calendar);
-            expense=db.getTotalExpenseForMonth(calendar);
-            total=db.getTotalAccountForMonth(calendar);
+            newTransactions = db.getTransactionDetailsOfMonths(calendar);
+            income = db.getTotalIncomeForMonth(calendar);
+            expense = db.getTotalExpenseForMonth(calendar);
+            total = db.getTotalAccountForMonth(calendar);
         }
 
 
