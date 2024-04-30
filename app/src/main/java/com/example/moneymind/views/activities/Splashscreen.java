@@ -25,7 +25,7 @@ public class Splashscreen extends AppCompatActivity {
                 Boolean IsLoggedIn=prefs.getBoolean("IsLoggedIn",false);
                 if(IsLoggedIn){
 
-                    startActivity(new Intent(Splashscreen.this, MainActivity.class));
+                    startActivity(new Intent(Splashscreen.this, Account_page.class));
                     finish();
                 }
                 else{

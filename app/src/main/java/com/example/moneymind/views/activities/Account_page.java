@@ -38,6 +38,7 @@ public class Account_page extends AppCompatActivity {
     AlertDialog dialog;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

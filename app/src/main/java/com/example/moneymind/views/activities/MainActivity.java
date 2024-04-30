@@ -3,13 +3,10 @@ package com.example.moneymind.views.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 
@@ -17,28 +14,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 
-import com.example.moneymind.MyDBHelper;
+import com.example.moneymind.BudgetFragment;
 import com.example.moneymind.R;
-import com.example.moneymind.adapters.TransactionAdapter;
 import com.example.moneymind.databinding.ActivityMainBinding;
-import com.example.moneymind.models.Transaction;
 import com.example.moneymind.utils.Constants;
-import com.example.moneymind.utils.Helper;
 import com.example.moneymind.viewmodel.MainViewModel;
 import com.example.moneymind.views.fragments.StatsFragment;
 import com.example.moneymind.views.fragments.TransactionsFragment;
-import com.example.moneymind.views.fragments.addtransactionfragment;
+import com.example.moneymind.views.fragments.UserFragment;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.tabs.TabLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.Callable;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -66,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel=new ViewModelProvider(this).get(MainViewModel.class);
         setSupportActionBar(binding.dashboardToolbar);
-        getSupportActionBar().setTitle("Dashboard");
+        getSupportActionBar().setTitle("MoneyMind");
         Constants.setCategory();
         calendar=Calendar.getInstance();
 
@@ -93,18 +81,26 @@ public class MainActivity extends AppCompatActivity {
               FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 
               if(Item.getItemId() == R.id.transactions){
-                  getSupportFragmentManager().popBackStack();
+                 getSupportFragmentManager().popBackStack();
+
 
               } else if (Item.getItemId() == R.id.stats) {
                   transaction.replace(R.id.content,new StatsFragment());
-                  transaction.addToBackStack(null);
+                 transaction.addToBackStack(null);
 
+              }else if(Item.getItemId()==R.id.user){
+               transaction.replace(R.id.content,new UserFragment());
+               transaction.addToBackStack(null);
+              }else if(Item.getItemId()==R.id.budget_goal){
+                  transaction.replace(R.id.content,new BudgetFragment());
+                  transaction.addToBackStack(null);
               }
               transaction.commit();
 
               return true;
           }
       });
+
 
 
 

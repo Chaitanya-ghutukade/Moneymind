@@ -14,15 +14,15 @@
         android:icon="@drawable/chart"
         android:title="Stats" />
     <item
-        android:id="@+id/accounts"
+        android:id="@+id/budget_goal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/accounts"
-        android:title="Accounts" />
+        android:icon="@drawable/budget"
+        android:title="Budget and Goal" />
     <item
-        android:id="@+id/other"
+        android:id="@+id/user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:icon="@drawable/other"
-        android:title="Other" />
+        android:title="User" />
 </menu>

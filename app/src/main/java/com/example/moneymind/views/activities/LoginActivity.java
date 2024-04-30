@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                             edit.apply();
 
 
-                            Intent account_page = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent account_page = new Intent(LoginActivity.this, Account_page.class);
 
                             Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                             startActivity(account_page);

@@ -2,6 +2,8 @@ package com.example.moneymind.views.fragments;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -57,8 +59,14 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        SharedPreferences sh=requireContext().getSharedPreferences("userDetails", Context.MODE_PRIVATE);
+        int user_id=sh.getInt("userId",-1);
+        int account_id=sh.getInt("accountId",-1);
+
         binding = FragmentAddtransactionfragmentBinding.inflate(inflater);
         transaction=new Transaction();
+
+        transaction.setAcc_id(account_id);
 
         binding.incomeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
