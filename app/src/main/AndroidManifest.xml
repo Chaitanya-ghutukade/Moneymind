@@ -12,7 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moneymind"
         tools:targetApi="31">
-
+        <activity
+            android:name=".views.activities.Goal"
+            android:exported="false" />
+        <activity
+            android:name=".views.activities.Budget"
+            android:exported="false" />
         <activity
             android:name=".views.activities.Account_page"
             android:exported="true" />

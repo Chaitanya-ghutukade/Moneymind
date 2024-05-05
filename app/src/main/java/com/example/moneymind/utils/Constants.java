@@ -32,8 +32,12 @@ public class Constants {
         categories.add(new Category("Rent", R.drawable.rent, R.color.category3));
         categories.add(new Category("Investment", R.drawable.investment, R.color.category4));
         categories.add(new Category("Salary", R.drawable.salary, R.color.category5));
-        categories.add(new Category("Other", R.drawable.other_category, R.color.category6));
-        categories.add(new Category("Other1", R.drawable.other_category, R.color.category6));
+        categories.add(new Category("Food", R.drawable.food, R.color.category6));
+        categories.add(new Category("Shopping", R.drawable.shopping, R.color.category7));
+        categories.add(new Category("Housing", R.drawable.housing, R.color.category8));
+        categories.add(new Category("Transportation", R.drawable.transportation, R.color.category9));
+        categories.add(new Category("Other", R.drawable.other_category, R.color.category10));
+
     }
 
     public static Category getCategoryDetails(String categoryName) {

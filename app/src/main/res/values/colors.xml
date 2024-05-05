@@ -43,7 +43,11 @@
     <color name="category3">#9C27B0</color>
     <color name="category4">#2196F3</color>
     <color name="category5">#FF9800</color>
-    <color name="category6">#FFC107</color>
+    <color name="category6">#CF172D</color>
+    <color name="category7">#2196F3</color>
+    <color name="category8">#FF5722</color>
+    <color name="category9">#AFA9A9</color>
+    <color name="category10">#CFC1C1</color>
 
 
     <color name="bank_color">#4CAF50</color>

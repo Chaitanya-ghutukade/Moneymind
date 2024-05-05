@@ -59,12 +59,12 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        SharedPreferences sh=requireContext().getSharedPreferences("userDetails", Context.MODE_PRIVATE);
-        int user_id=sh.getInt("userId",-1);
-        int account_id=sh.getInt("accountId",-1);
+        SharedPreferences sh = requireContext().getSharedPreferences("userDetails", Context.MODE_PRIVATE);
+        int user_id = sh.getInt("userId", -1);
+        int account_id = sh.getInt("accountId", -1);
 
         binding = FragmentAddtransactionfragmentBinding.inflate(inflater);
-        transaction=new Transaction();
+        transaction = new Transaction();
 
         transaction.setAcc_id(account_id);
 
@@ -150,10 +150,10 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
                 accountdialog.setView(dialogbinding.getRoot());
 
                 ArrayList<Account> accountArrayList = new ArrayList<>();
-                accountArrayList.add(new Account("Bank", 1000));
-                accountArrayList.add(new Account("Cash", 1000));
-                accountArrayList.add(new Account("paytm", 1000));
-                accountArrayList.add(new Account("Card", 1000));
+                accountArrayList.add(new Account("BANK", 1000));
+                accountArrayList.add(new Account("CASH", 1000));
+                accountArrayList.add(new Account("UPI", 1000));
+                accountArrayList.add(new Account("CARD", 1000));
 
 
                 Account_Adapter adapter = new Account_Adapter(getContext(), accountArrayList, new Account_Adapter.AccountClickListner() {
@@ -176,19 +176,19 @@ public class addtransactionfragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
 
-                double amount=Double.parseDouble(binding.amount.getText().toString());
-                String note=binding.note.getText().toString();
+                double amount = Double.parseDouble(binding.amount.getText().toString());
+                String note = binding.note.getText().toString();
                 transaction.setNote(note);
 
-                if(transaction.getType().equals(Constants.EXPENSE)) {
+                if (transaction.getType().equals(Constants.EXPENSE)) {
                     transaction.setAmount(amount * -1);
 
-                }else {
+                } else {
                     transaction.setAmount(amount);
                 }
 
-                ((MainActivity)getActivity()).viewModel.addTransactions(transaction);
-                ((MainActivity)getActivity()).getTransaction();
+                ((MainActivity) getActivity()).viewModel.addTransactions(transaction);
+                ((MainActivity) getActivity()).getTransaction();
 
                 dismiss();
 

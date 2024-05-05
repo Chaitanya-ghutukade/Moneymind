@@ -28,30 +28,30 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     Context context;
     ArrayList<Transaction> transactionArrayList;
 
-    public TransactionAdapter(Context context,ArrayList<Transaction> transactionArrayList) {
-        this.context=context;
-        this.transactionArrayList=transactionArrayList;
+    public TransactionAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
+        this.context = context;
+        this.transactionArrayList = transactionArrayList;
     }
 
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TransactionViewHolder(LayoutInflater.from(context).inflate(R.layout.row_transaction,parent,false));
+        return new TransactionViewHolder(LayoutInflater.from(context).inflate(R.layout.row_transaction, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
-        Transaction transaction=transactionArrayList.get(position);
+        Transaction transaction = transactionArrayList.get(position);
         holder.binding.transactionAmount.setText(String.valueOf(transaction.getAmount()));
         holder.binding.accountLabel.setText(transaction.getAccount());
         holder.binding.transactionDate.setText(Helper.format_date(transaction.getDate()));
         holder.binding.transactionCategory.setText(transaction.getCategory());
 
-        Category transactionCategory=Constants.getCategoryDetails(transaction.getCategory());
+        Category transactionCategory = Constants.getCategoryDetails(transaction.getCategory());
         holder.binding.categoryIcon.setImageResource(transactionCategory.getCategoryImage());
         holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(transactionCategory.getCategorycolor()));
         holder.binding.accountLabel.setBackgroundTintList(context.getColorStateList(Constants.getAccountColors(transaction.getAccount())));
-        if(transaction.getType().equals(Constants.INCOME)){
+        if (transaction.getType().equals(Constants.INCOME)) {
             holder.binding.transactionAmount.setTextColor(context.getColor(R.color.green));
         } else if (transaction.getType().equals(Constants.EXPENSE)) {
             holder.binding.transactionAmount.setTextColor(context.getColor(R.color.red));
@@ -67,7 +67,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        ((MainActivity)context).viewModel.deleteTransaction(transaction);
+                        ((MainActivity) context).viewModel.deleteTransaction(transaction);
 
 
                     }
@@ -80,7 +80,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 });
 
 
-
                 deleteDialog.show();
                 return false;
             }
@@ -91,14 +90,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public int getItemCount() {
-        return  transactionArrayList.size();
+        return transactionArrayList.size();
     }
 
-    class TransactionViewHolder extends RecyclerView.ViewHolder{
+    class TransactionViewHolder extends RecyclerView.ViewHolder {
         RowTransactionBinding binding;
+
         public TransactionViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding=RowTransactionBinding.bind(itemView);
+            binding = RowTransactionBinding.bind(itemView);
         }
     }
 }

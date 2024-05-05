@@ -28,7 +28,6 @@ import java.util.Calendar;
 public class TransactionsFragment extends Fragment {
 
 
-
     public TransactionsFragment() {
         // Required empty public constructor
     }
@@ -39,7 +38,8 @@ public class TransactionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-FragmentTransactionsBinding binding;
+
+    FragmentTransactionsBinding binding;
     Calendar calendar;
 
     /*
@@ -51,23 +51,23 @@ FragmentTransactionsBinding binding;
      */
 
 
-
     public MainViewModel viewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      binding=FragmentTransactionsBinding.inflate(inflater);
+        binding = FragmentTransactionsBinding.inflate(inflater);
 
-        viewModel=new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        calendar=Calendar.getInstance();
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        calendar = Calendar.getInstance();
         updateDate();
         binding.nextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( Constants.SELECTED_TAB ==Constants.DAILY ) {
+                if (Constants.SELECTED_TAB == Constants.DAILY) {
                     calendar.add(Calendar.DATE, 1);
-                }else if(Constants.SELECTED_TAB ==Constants.MONTHLY){
-                    calendar.add(Calendar.MONTH,1);
+                } else if (Constants.SELECTED_TAB == Constants.MONTHLY) {
+                    calendar.add(Calendar.MONTH, 1);
                 }
                 updateDate();
             }
@@ -76,10 +76,10 @@ FragmentTransactionsBinding binding;
         binding.previousDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( Constants.SELECTED_TAB == Constants.DAILY) {
+                if (Constants.SELECTED_TAB == Constants.DAILY) {
                     calendar.add(Calendar.DATE, -1);
-                }else if( Constants.SELECTED_TAB == Constants.MONTHLY){
-                    calendar.add(Calendar.MONTH,-1);
+                } else if (Constants.SELECTED_TAB == Constants.MONTHLY) {
+                    calendar.add(Calendar.MONTH, -1);
                 }
                 updateDate();
             }
@@ -90,11 +90,11 @@ FragmentTransactionsBinding binding;
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                if(tab.getText().equals("Daily")){
-                    Constants.SELECTED_TAB=Constants.DAILY;
+                if (tab.getText().equals("Daily")) {
+                    Constants.SELECTED_TAB = Constants.DAILY;
                     updateDate();
-                }else if(tab.getText().equals("Monthly")){
-                    Constants.SELECTED_TAB=Constants.MONTHLY;
+                } else if (tab.getText().equals("Monthly")) {
+                    Constants.SELECTED_TAB = Constants.MONTHLY;
                     updateDate();
                 }
 
@@ -114,34 +114,29 @@ FragmentTransactionsBinding binding;
         });
 
 
-
-
-
         binding.fabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new addtransactionfragment().show(getParentFragmentManager(),null);
+                new addtransactionfragment().show(getParentFragmentManager(), null);
 
             }
         });
 
 
-
-
         binding.transactionlist.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        viewModel.transaction.observe(getViewLifecycleOwner(),new Observer<ArrayList<Transaction>>(){
+        viewModel.transaction.observe(getViewLifecycleOwner(), new Observer<ArrayList<Transaction>>() {
             @Override
             public void onChanged(ArrayList<Transaction> transactions) {
 
 
-                TransactionAdapter transactionAdapter=new TransactionAdapter(getActivity(),transactions);
+                TransactionAdapter transactionAdapter = new TransactionAdapter(getActivity(), transactions);
 
                 binding.transactionlist.setAdapter(transactionAdapter);
-                if(transactions.size() > 0){
+                if (transactions.size() > 0) {
                     binding.emptyState.setVisibility(View.GONE);
 
-                }else{
+                } else {
                     binding.emptyState.setVisibility(View.VISIBLE);
                 }
 
@@ -172,10 +167,10 @@ FragmentTransactionsBinding binding;
         return binding.getRoot();
     }
 
-    void updateDate(){
-        if( Constants.SELECTED_TAB ==Constants.DAILY) {
+    void updateDate() {
+        if (Constants.SELECTED_TAB == Constants.DAILY) {
             binding.date.setText(Helper.format_date(calendar.getTime()));
-        }else if(Constants.SELECTED_TAB ==Constants.MONTHLY){
+        } else if (Constants.SELECTED_TAB == Constants.MONTHLY) {
             binding.date.setText(Helper.format_date_month(calendar.getTime()));
         }
         viewModel.getTransactions(calendar);

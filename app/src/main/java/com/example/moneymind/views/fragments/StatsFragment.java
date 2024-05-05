@@ -44,7 +44,8 @@ public class StatsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
-      FragmentStatsBinding binding;
+
+    FragmentStatsBinding binding;
     Calendar calendar;
 
     /*
@@ -55,14 +56,14 @@ public class StatsFragment extends Fragment {
 
 
     public MainViewModel viewModel;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding=FragmentStatsBinding.inflate(inflater);
-        viewModel=new ViewModelProvider(requireActivity()).get(MainViewModel.class);
-        calendar=Calendar.getInstance();
+        binding = FragmentStatsBinding.inflate(inflater);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        calendar = Calendar.getInstance();
         updateDate();
-
 
 
         binding.incomeBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,10 +92,10 @@ public class StatsFragment extends Fragment {
         binding.nextDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( Constants.SELECTED_TAB_STATS ==Constants.DAILY ) {
+                if (Constants.SELECTED_TAB_STATS == Constants.DAILY) {
                     calendar.add(Calendar.DATE, 1);
-                }else if(Constants.SELECTED_TAB_STATS ==Constants.MONTHLY){
-                    calendar.add(Calendar.MONTH,1);
+                } else if (Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
+                    calendar.add(Calendar.MONTH, 1);
                 }
                 updateDate();
             }
@@ -103,10 +104,10 @@ public class StatsFragment extends Fragment {
         binding.previousDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( Constants.SELECTED_TAB_STATS == Constants.DAILY) {
+                if (Constants.SELECTED_TAB_STATS == Constants.DAILY) {
                     calendar.add(Calendar.DATE, -1);
-                }else if( Constants.SELECTED_TAB_STATS == Constants.MONTHLY){
-                    calendar.add(Calendar.MONTH,-1);
+                } else if (Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
+                    calendar.add(Calendar.MONTH, -1);
                 }
                 updateDate();
             }
@@ -117,11 +118,11 @@ public class StatsFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                if(tab.getText().equals("Daily")){
-                    Constants.SELECTED_TAB_STATS=Constants.DAILY;
+                if (tab.getText().equals("Daily")) {
+                    Constants.SELECTED_TAB_STATS = Constants.DAILY;
                     updateDate();
-                }else if(tab.getText().equals("Monthly")){
-                    Constants.SELECTED_TAB_STATS=Constants.MONTHLY;
+                } else if (tab.getText().equals("Monthly")) {
+                    Constants.SELECTED_TAB_STATS = Constants.MONTHLY;
                     updateDate();
                 }
 
@@ -145,7 +146,7 @@ public class StatsFragment extends Fragment {
         viewModel.categorytransaction.observe(getViewLifecycleOwner(), new Observer<ArrayList<Transaction>>() {
             @Override
             public void onChanged(ArrayList<Transaction> transactions) {
-                if(transactions.size() > 0) {
+                if (transactions.size() > 0) {
 
                     binding.emptyState.setVisibility(View.GONE);
                     binding.anyChart.setVisibility(View.VISIBLE);
@@ -154,11 +155,11 @@ public class StatsFragment extends Fragment {
 
                     Map<String, Double> categoryMap = new HashMap<>();
 
-                    for(Transaction transaction : transactions) {
+                    for (Transaction transaction : transactions) {
                         String category = transaction.getCategory();
                         double amount = transaction.getAmount();
 
-                        if(categoryMap.containsKey(category)) {
+                        if (categoryMap.containsKey(category)) {
                             double currentTotal = categoryMap.get(category).doubleValue();
                             currentTotal += Math.abs(amount);
 
@@ -168,8 +169,8 @@ public class StatsFragment extends Fragment {
                         }
                     }
 
-                    for(Map.Entry<String, Double> entry : categoryMap.entrySet()) {
-                        data.add(new ValueDataEntry(entry.getKey(),entry.getValue()));
+                    for (Map.Entry<String, Double> entry : categoryMap.entrySet()) {
+                        data.add(new ValueDataEntry(entry.getKey(), entry.getValue()));
                     }
                     pie.data(data);
 
@@ -182,10 +183,9 @@ public class StatsFragment extends Fragment {
             }
 
 
-
         });
 
-        viewModel.getTransactionsChart(calendar,Constants.SELECTED_STATS_TYPE);
+        viewModel.getTransactionsChart(calendar, Constants.SELECTED_STATS_TYPE);
 
 
 
@@ -206,16 +206,15 @@ public class StatsFragment extends Fragment {
         binding.anyChart.setChart(pie);
 
 
-
         return binding.getRoot();
     }
 
-    void updateDate(){
-        if( Constants.SELECTED_TAB_STATS ==Constants.DAILY) {
+    void updateDate() {
+        if (Constants.SELECTED_TAB_STATS == Constants.DAILY) {
             binding.date.setText(Helper.format_date(calendar.getTime()));
-        }else if(Constants.SELECTED_TAB_STATS ==Constants.MONTHLY){
+        } else if (Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
             binding.date.setText(Helper.format_date_month(calendar.getTime()));
         }
-        viewModel.getTransactionsChart(calendar,Constants.SELECTED_STATS_TYPE);
+        viewModel.getTransactionsChart(calendar, Constants.SELECTED_STATS_TYPE);
     }
 }

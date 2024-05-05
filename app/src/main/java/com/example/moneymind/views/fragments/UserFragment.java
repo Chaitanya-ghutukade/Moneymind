@@ -26,8 +26,6 @@ public class UserFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,39 +33,40 @@ public class UserFragment extends Fragment {
 
         }
     }
+
     FragmentUserBinding binding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding= FragmentUserBinding.inflate(inflater);
+        binding = FragmentUserBinding.inflate(inflater);
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("User_name", Context.MODE_PRIVATE);
-        String stored_user_name=sharedPreferences.getString("username","default_username");
+        String stored_user_name = sharedPreferences.getString("username", "default_username");
         MyDBHelper db2 = new MyDBHelper(getContext());
-        Userdata userdata=db2.getuserdetails(stored_user_name);
-        if(userdata != null){
-            String u_name=userdata.user_name;
-            String u_mail=userdata.user_email;
-            binding.fullname.setText(" "+u_name);
-            binding.mailaddress.setText(" "+u_mail);
+        Userdata userdata = db2.getuserdetails(stored_user_name);
+        if (userdata != null) {
+            String u_name = userdata.user_name;
+            String u_mail = userdata.user_email;
+            binding.fullname.setText(" " + u_name);
+            binding.mailaddress.setText(" " + u_mail);
         }
 
-   binding.logout.setOnClickListener(new View.OnClickListener() {
-       @Override
-       public void onClick(View v) {
-           logoutUser();
-       }
-   });
-
-
+        binding.logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
 
 
         return binding.getRoot();
     }
+
     private void logoutUser() {
         // Clear SharedPreferences
-        SharedPreferences prefs= requireContext().getSharedPreferences("userlogin",Context.MODE_PRIVATE);
-        SharedPreferences.Editor edit=prefs.edit();
-        edit.putBoolean("IsLoggedIn",false);
+        SharedPreferences prefs = requireContext().getSharedPreferences("userlogin", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean("IsLoggedIn", false);
         edit.apply();
 
         // Redirect to Login Screen
